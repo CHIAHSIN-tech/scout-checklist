@@ -15,17 +15,38 @@
   --linen-700:#6B6558; --linen-900:#3C3830;
   --wheat-50:#FBF0E0; --wheat-200:#E8C898; --wheat-400:#C4915A; --wheat-700:#7A5230;
   --font-sans:'Noto Sans TC',sans-serif;
-  --font-serif:Georgia,'Noto Serif TC',serif;
+  --font-serif:'Noto Sans TC',sans-serif;
 }
 body { background:var(--linen-50); font-family:var(--font-sans); color:var(--linen-900); min-height:100vh; padding-bottom:6rem; }
+
+/* 同步狀態指示 */
+.sync-bar {
+  position:fixed; top:0; left:0; right:0; height:3px; z-index:999;
+  background:transparent; transition:background 0.3s;
+}
+.sync-bar.syncing { background:var(--sage-400); animation:syncPulse 1s ease-in-out infinite; }
+.sync-bar.error   { background:#e74c3c; }
+@keyframes syncPulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.sync-badge {
+  position:fixed; bottom:1.5rem; right:1.5rem; z-index:200;
+  background:#fff; border:0.5px solid var(--linen-200); border-radius:100px;
+  padding:6px 14px; font-size:12px; color:var(--linen-400);
+  box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; align-items:center; gap:6px;
+  transition:all 0.3s;
+}
+.sync-dot { width:7px; height:7px; border-radius:50%; background:var(--linen-200); transition:background 0.3s; }
+.sync-badge.live   .sync-dot { background:var(--sage-800); }
+.sync-badge.syncing .sync-dot { background:var(--wheat-400); animation:syncPulse 0.8s ease-in-out infinite; }
+.sync-badge.error  .sync-dot { background:#e74c3c; }
 
 /* Header */
 .header { background:var(--linen-50); border-bottom:0.5px solid var(--linen-200); padding:1.25rem 1.5rem; position:sticky; top:0; z-index:100; }
 .header-inner { max-width:680px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
 .brand { display:flex; align-items:center; gap:10px; }
 .brand-logo { width:36px; height:36px; border:2px solid var(--sage-800); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
-.brand-name { font-size:22px; color:var(--linen-900); font-family:var(--font-serif); }
-.brand-sub  { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--linen-400); font-family:var(--font-serif); }
+.brand-name  { font-size:22px; color:var(--linen-900); font-family:var(--font-serif); }
+.brand-sub   { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--linen-400); font-family:var(--font-serif); }
 
 /* Main */
 .main { max-width:680px; margin:0 auto; padding:2rem 1.5rem 0; }
@@ -42,10 +63,6 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
   background-repeat:no-repeat; background-position:right 14px center; transition:border-color 0.15s;
 }
 .trip-select:focus { border-color:var(--sage-800); box-shadow:0 0 0 2px rgba(61,107,84,0.12); }
-
-/* Trip meta */
-.trip-meta { background:var(--sage-50); border-radius:12px; padding:0.75rem 1.25rem; font-size:13px; color:var(--sage-800); margin-bottom:1.5rem; display:flex; align-items:center; justify-content:space-between; gap:0.5rem; flex-wrap:wrap; }
-.trip-meta-dates { color:var(--sage-600); font-style:italic; }
 
 /* Banner */
 .pending-banner { background:var(--wheat-50); border:1.5px solid var(--wheat-200); border-radius:16px; padding:1.25rem 1.5rem; margin-bottom:1.5rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; transition:all 0.3s; }
@@ -132,13 +149,10 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
 .btn { display:inline-flex; align-items:center; gap:10px; border-radius:100px; padding:9px 9px 9px 22px; font-size:14px; font-family:var(--font-sans); cursor:pointer; border:none; transition:background 0.15s; }
 .btn-primary   { background:var(--sage-800); color:#fff; }
 .btn-primary:hover { background:var(--sage-900); }
-.btn-secondary { background:var(--sage-50); color:var(--sage-800); }
-.btn-secondary:hover { background:var(--sage-200); }
 .btn-ghost { background:transparent; color:var(--linen-400); border:1px solid var(--linen-200); padding:8px 16px; font-size:12px; }
 .btn-ghost:hover { color:var(--linen-900); border-color:var(--linen-400); }
 .icon-circle { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .ic-light { background:var(--sage-50); }
-.ic-dark  { background:var(--sage-800); }
 
 /* Modal */
 .modal-overlay { position:fixed; inset:0; background:rgba(60,56,48,0.45); z-index:200; display:flex; align-items:center; justify-content:center; padding:1rem; opacity:0; pointer-events:none; transition:opacity 0.2s; }
@@ -153,12 +167,10 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
 .ai-textarea { width:100%; border:1.5px solid var(--sage-400); border-radius:16px; padding:14px 16px; font-size:14px; font-family:var(--font-sans); color:var(--linen-900); background:#fff; outline:none; resize:vertical; min-height:140px; line-height:1.7; transition:border-color 0.15s; }
 .ai-textarea:focus { border-color:var(--sage-800); box-shadow:0 0 0 2px rgba(61,107,84,0.12); }
 .ai-textarea::placeholder { color:var(--linen-400); }
-.ai-key-row   { display:flex; align-items:center; gap:8px; margin-top:10px; }
+.ai-key-row { display:flex; align-items:center; gap:8px; margin-top:10px; }
 .ai-key-label { font-size:11px; color:var(--linen-400); white-space:nowrap; letter-spacing:0.05em; text-transform:uppercase; }
 .ai-key-input { flex:1; border:1.5px solid var(--linen-200); border-radius:100px; padding:7px 14px; font-size:13px; font-family:monospace; color:var(--linen-700); background:var(--linen-50); outline:none; transition:border-color 0.15s; }
 .ai-key-input:focus { border-color:var(--sage-400); }
-
-/* Loading */
 .ai-loading { display:flex; flex-direction:column; align-items:center; gap:1rem; padding:2rem 0; }
 .ai-spinner { width:32px; height:32px; border:2.5px solid var(--sage-200); border-top-color:var(--sage-800); border-radius:50%; animation:spin 0.7s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
@@ -187,40 +199,33 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
 .badge-已確認 { background:var(--sage-50); color:var(--sage-800); border:1px solid var(--sage-800); }
 .ai-error { background:#fff3f3; border:1px solid #f0c0c0; border-radius:12px; padding:12px 16px; font-size:13px; color:#c0392b; margin:1rem 0; }
 
+/* Drag & Drop */
+.item-card.dragging { opacity:0.35; box-shadow:none; }
+.drag-handle { display:flex; align-items:center; justify-content:center; width:16px; flex-shrink:0; cursor:grab; color:var(--linen-200); user-select:none; align-self:stretch; }
+.drag-handle:hover { color:var(--linen-400); }
+.drag-handle:active { cursor:grabbing; }
+.drop-indicator { height:3px; border-radius:2px; margin:1px 0; background:transparent; transition:background 0.12s; pointer-events:none; }
+.drop-indicator.active { background:var(--sage-400); }
+
+/* Inline edit */
+.item-name:hover, .item-notes:hover { background:var(--linen-50); border-radius:6px; cursor:text; outline:1.5px dashed var(--linen-200); outline-offset:2px; }
+.item-notes-empty { color:var(--linen-200); font-style:italic; font-size:12px; }
+.item-notes-empty:hover { color:var(--linen-400); }
+.inline-input { font-family:var(--font-sans); font-size:15px; font-weight:500; color:var(--linen-900); background:var(--sage-50); border:1.5px solid var(--sage-400); border-radius:8px; padding:2px 8px; outline:none; width:100%; box-sizing:border-box; }
+.inline-input.notes { font-size:12px; font-weight:400; font-style:italic; color:var(--linen-700); }
+
+.cat-tag {
+  display:inline-block; font-size:11px; color:var(--linen-400);
+  background:var(--linen-50); border:0.5px solid var(--linen-200);
+  border-radius:4px; padding:1px 7px; letter-spacing:0.03em;
+}
+
 /* Empty states */
 .empty-state { text-align:center; padding:3rem 1rem; color:var(--linen-400); }
 .empty-state-icon { font-size:2.5rem; margin-bottom:1rem; }
 .empty-state-text { font-size:15px; font-style:italic; font-family:var(--font-serif); }
 
-.item-name:hover, .item-notes:hover {
-  background:var(--linen-50); border-radius:6px; cursor:text;
-  outline:1.5px dashed var(--linen-200); outline-offset:2px;
-}
-.item-notes-empty { color:var(--linen-200); font-style:italic; font-size:12px; }
-.item-notes-empty:hover { color:var(--linen-400); }
-
-/* drag & drop */
-.item-card.dragging { opacity:0.35; box-shadow:none; }
-.drag-handle {
-  display:flex; align-items:center; justify-content:center;
-  width:16px; flex-shrink:0; cursor:grab; color:var(--linen-200);
-  user-select:none; align-self:stretch;
-}
-.drag-handle:hover { color:var(--linen-400); }
-.drag-handle:active { cursor:grabbing; }
-.drop-indicator {
-  height:3px; border-radius:2px; margin:1px 0;
-  background:transparent; transition:background 0.12s;
-  pointer-events:none;
-}
-.drop-indicator.active { background:var(--sage-400); }
-.inline-input {
-  font-family:var(--font-sans); font-size:15px; font-weight:500;
-  color:var(--linen-900); background:var(--sage-50);
-  border:1.5px solid var(--sage-400); border-radius:8px;
-  padding:2px 8px; outline:none; width:100%; box-sizing:border-box;
-}
-.inline-input.notes { font-size:12px; font-weight:400; font-style:italic; color:var(--linen-700); }
+@keyframes slideIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
 @media (max-width:480px) {
   .pending-count { font-size:32px; }
@@ -232,6 +237,13 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
 </style>
 </head>
 <body>
+
+<!-- 同步狀態 -->
+<div class="sync-bar" id="sync-bar"></div>
+<div class="sync-badge" id="sync-badge">
+  <div class="sync-dot"></div>
+  <span id="sync-label">連線中…</span>
+</div>
 
 <header class="header">
   <div class="header-inner">
@@ -273,11 +285,11 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
   <div class="filters" id="filters" style="display:none">
     <button class="filter-btn active" onclick="setFilter('all',this)">全部</button>
     <button class="filter-btn" onclick="setFilter('未確認',this)">未確認</button>
-    <button class="filter-btn" onclick="setFilter('餐廳',this)">🍽️ 餐廳</button>
-    <button class="filter-btn" onclick="setFilter('景點',this)">🏛️ 景點</button>
-    <button class="filter-btn" onclick="setFilter('交通',this)">🚄 交通</button>
-    <button class="filter-btn" onclick="setFilter('住宿',this)">🏨 住宿</button>
-    <button class="filter-btn" onclick="setFilter('其他',this)">📌 其他</button>
+    <button class="filter-btn" onclick="setFilter('餐廳',this)">餐廳</button>
+    <button class="filter-btn" onclick="setFilter('景點',this)">景點</button>
+    <button class="filter-btn" onclick="setFilter('交通',this)">交通</button>
+    <button class="filter-btn" onclick="setFilter('住宿',this)">住宿</button>
+    <button class="filter-btn" onclick="setFilter('其他',this)">其他</button>
     <button class="filter-btn" id="add-toggle-btn" onclick="toggleAddSection()" style="margin-left:auto;border-color:var(--sage-400);color:var(--sage-800)">＋ 新增項目</button>
   </div>
 
@@ -300,11 +312,11 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
       <div class="form-field">
         <label class="form-label">分類</label>
         <select class="form-select" id="new-category">
-          <option value="餐廳">🍽️ 餐廳</option>
-          <option value="景點">🏛️ 景點</option>
-          <option value="交通">🚄 交通</option>
-          <option value="住宿">🏨 住宿</option>
-          <option value="其他">📌 其他</option>
+          <option value="餐廳">餐廳</option>
+          <option value="景點">景點</option>
+          <option value="交通">交通</option>
+          <option value="住宿">住宿</option>
+          <option value="其他">其他</option>
         </select>
       </div>
       <div class="form-field">
@@ -328,9 +340,7 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
       <button class="btn btn-primary" onclick="addItem()">
         新增
         <span class="icon-circle ic-light">
-          <svg width="12" height="12" viewBox="0 0 13 13" fill="none">
-            <path d="M6.5 2V11M2 6.5H11" stroke="#3D6B54" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
+          <svg width="12" height="12" viewBox="0 0 13 13" fill="none"><path d="M6.5 2V11M2 6.5H11" stroke="#3D6B54" stroke-width="1.5" stroke-linecap="round"/></svg>
         </span>
       </button>
     </div>
@@ -340,9 +350,8 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
 
   <div class="empty-state" id="empty-state" style="display:none">
     <div class="empty-state-icon">🗺️</div>
-    <div class="empty-state-text">還沒有行程項目<br>從上方新增第一個吧</div>
+    <div class="empty-state-text">還沒有行程項目<br>點上方「＋ 新增項目」開始</div>
   </div>
-
   <div class="empty-state" id="no-trip-state">
     <div class="empty-state-icon">✈️</div>
     <div class="empty-state-text">點右上角「新增旅程」開始</div>
@@ -360,24 +369,14 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
       </div>
     </div>
     <div class="form-row">
-      <div class="form-field">
-        <label class="form-label">出發日</label>
-        <input class="form-input" id="modal-start" type="date">
-      </div>
-      <div class="form-field">
-        <label class="form-label">回程日</label>
-        <input class="form-input" id="modal-end" type="date">
-      </div>
+      <div class="form-field"><label class="form-label">出發日</label><input class="form-input" id="modal-start" type="date"></div>
+      <div class="form-field"><label class="form-label">回程日</label><input class="form-input" id="modal-end" type="date"></div>
     </div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeTripModal()">取消</button>
       <button class="btn btn-primary" onclick="createTrip()">
         建立旅程
-        <span class="icon-circle ic-light">
-          <svg width="12" height="12" viewBox="0 0 13 13" fill="none">
-            <path d="M2 11L11 2M11 2H4M11 2V9" stroke="#3D6B54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
+        <span class="icon-circle ic-light"><svg width="12" height="12" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4M11 2V9" stroke="#3D6B54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
     </div>
   </div>
@@ -387,9 +386,7 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
 <div class="modal-overlay" id="ai-modal" onclick="closeAiModalOnOverlay(event)">
   <div class="modal ai-modal">
     <div class="modal-title">✦ AI 匯入行程</div>
-    <p style="font-size:13px;color:var(--linen-400);margin-bottom:1rem;font-style:italic">
-      貼入 LINE 訊息、備忘錄、或複製自 Excel 的行程表，AI 會自動解析成項目。
-    </p>
+    <p style="font-size:13px;color:var(--linen-400);margin-bottom:1rem;font-style:italic">貼入 LINE 訊息、備忘錄、或複製自 Excel 的行程表，AI 會自動解析成項目。</p>
     <textarea class="ai-textarea" id="ai-paste-input" placeholder="例：
 Day1 上午：鼎泰豐（已訂位，確認號 TW2345）
 Day1 下午：故宮博物院（還沒買票）
@@ -404,11 +401,7 @@ Day2：某餐廳 晚餐 - 等老闆回覆
       <button class="btn btn-ghost" onclick="closeAiModal()">取消</button>
       <button class="btn btn-primary" onclick="runAiParse()">
         解析
-        <span class="icon-circle ic-light">
-          <svg width="12" height="12" viewBox="0 0 13 13" fill="none">
-            <path d="M2 11L11 2M11 2H4M11 2V9" stroke="#3D6B54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
+        <span class="icon-circle ic-light"><svg width="12" height="12" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4M11 2V9" stroke="#3D6B54" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
     </div>
   </div>
@@ -418,10 +411,7 @@ Day2：某餐廳 晚餐 - 等老闆回覆
 <div class="modal-overlay" id="preview-modal" onclick="closePreviewModalOnOverlay(event)">
   <div class="modal ai-modal">
     <div class="modal-title">確認匯入項目</div>
-    <div class="ai-loading" id="preview-loading">
-      <div class="ai-spinner"></div>
-      <div class="ai-loading-text">AI 正在解析行程內容…</div>
-    </div>
+    <div class="ai-loading" id="preview-loading"><div class="ai-spinner"></div><div class="ai-loading-text">AI 正在解析行程內容…</div></div>
     <div id="preview-result" style="display:none">
       <div class="preview-header">
         <span class="preview-count" id="preview-count"></span>
@@ -433,622 +423,527 @@ Day2：某餐廳 晚餐 - 等老闆回覆
         <button class="btn btn-ghost" onclick="closePreviewModal()">取消</button>
         <button class="btn btn-primary" onclick="confirmImport()">
           匯入選取項目
-          <span class="icon-circle ic-light">
-            <svg width="12" height="12" viewBox="0 0 13 13" fill="none">
-              <path d="M6.5 2V11M2 6.5H11" stroke="#3D6B54" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-          </span>
+          <span class="icon-circle ic-light"><svg width="12" height="12" viewBox="0 0 13 13" fill="none"><path d="M6.5 2V11M2 6.5H11" stroke="#3D6B54" stroke-width="1.5" stroke-linecap="round"/></svg></span>
         </button>
       </div>
     </div>
   </div>
 </div>
 
-<script>
-const TRIPS_KEY    = 'scout_trips';
-const ITEMS_KEY    = 'scout_items';
-const AI_KEY_STORE = 'scout_ai_key';
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+import { getDatabase, ref, set, push, remove, onValue, update } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js';
+
+// ── Firebase 設定 ──
+const firebaseConfig = {
+  apiKey: "AIzaSyAXzF_wiFJBzBy8vh-clfWK2AIZ1uCR5vg",
+  authDomain: "scout-checklist.firebaseapp.com",
+  databaseURL: "https://scout-checklist-default-rtdb.firebaseio.com",
+  projectId: "scout-checklist",
+  storageBucket: "scout-checklist.firebasestorage.app",
+  messagingSenderId: "441876091472",
+  appId: "1:441876091472:web:29e20124a5a40493417755"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+
+// ── 常數 ──
 const STATUSES         = ['候選','選定','跟進中','等回覆','已確認'];
 const PENDING_STATUSES = new Set(['候選','選定','跟進中','等回覆']);
 const VALID_CATS       = ['餐廳','景點','交通','住宿','其他'];
-const CAT_ICONS        = {'餐廳':'🍽️','景點':'🏛️','交通':'🚄','住宿':'🏨','其他':'📌'};
+const CAT_ICONS = {'餐廳':'餐廳','景點':'景點','交通':'交通','住宿':'住宿','其他':'其他'};
+const AI_KEY_STORE     = 'scout_ai_key';
 
-let currentFilter = 'all';
+// ── 本地狀態（從 Firebase 同步而來）──
+let trips        = {};  // { firebaseKey: { name, startDate, endDate } }
+let items        = {};  // { firebaseKey: { tripId, day, name, category, status, notes, order } }
 let currentTripId = null;
+let currentFilter = 'all';
 
-// 資料存取
-function getTrips(){ return JSON.parse(localStorage.getItem(TRIPS_KEY)||'[]'); }
-function saveTrips(t){ localStorage.setItem(TRIPS_KEY,JSON.stringify(t)); }
-function getItems(){ return JSON.parse(localStorage.getItem(ITEMS_KEY)||'[]'); }
-function saveItems(i){ localStorage.setItem(ITEMS_KEY,JSON.stringify(i)); }
-function nextId(list){ return list.length===0?1:Math.max(...list.map(x=>x.id))+1; }
-
-// 旅程 CRUD
-function createTrip(){
-  var name=document.getElementById('modal-trip-name').value.trim();
-  var start=document.getElementById('modal-start').value;
-  var end=document.getElementById('modal-end').value;
-  if(!name){alert('請輸入旅程名稱');return;}
-  var trips=getTrips();
-  var trip={id:nextId(trips),name:name,startDate:start,endDate:end};
-  trips.push(trip); saveTrips(trips);
-  closeTripModal(); renderTripSelect(trip.id); onTripChange();
-}
-function deleteCurrentTrip(){
-  if(!currentTripId)return;
-  var trips=getTrips();
-  var trip=trips.find(function(t){return t.id===currentTripId;});
-  if(!trip)return;
-  if(!confirm('確定要刪除「'+trip.name+'」？此旅程的所有行程項目也會一起刪除。'))return;
-  saveTrips(trips.filter(function(t){return t.id!==currentTripId;}));
-  saveItems(getItems().filter(function(i){return i.tripId!==currentTripId;}));
-  currentTripId=null; renderTripSelect(null); onTripChange();
+// ── 同步狀態 UI ──
+function setSyncStatus(status) {
+  // status: 'connecting' | 'live' | 'syncing' | 'error'
+  const bar   = document.getElementById('sync-bar');
+  const badge = document.getElementById('sync-badge');
+  const label = document.getElementById('sync-label');
+  bar.className   = 'sync-bar'   + (status === 'syncing' ? ' syncing' : status === 'error' ? ' error' : '');
+  badge.className = 'sync-badge' + (status === 'live' ? ' live' : status === 'syncing' ? ' syncing' : status === 'error' ? ' error' : '');
+  label.textContent = status === 'live' ? '即時同步' : status === 'syncing' ? '同步中…' : status === 'error' ? '連線失敗' : '連線中…';
 }
 
-// 項目 CRUD
-function addItem(){
-  if(!currentTripId)return;
-  var name=document.getElementById('new-name').value.trim();
-  var day=parseInt(document.getElementById('new-day').value)||1;
-  var category=document.getElementById('new-category').value;
-  var status=document.getElementById('new-status').value;
-  var notes=document.getElementById('new-notes').value.trim();
-  if(!name){alert('請輸入項目名稱');return;}
-  var items=getItems();
-  items.push({id:nextId(items),tripId:currentTripId,day:day,name:name,category:category,status:status,notes:notes});
-  saveItems(items);
-  document.getElementById('new-name').value='';
-  document.getElementById('new-notes').value='';
-  // 新增完自動收合
-  document.getElementById('add-section').style.display='none';
-  var btn=document.getElementById('add-toggle-btn');
-  if(btn)btn.classList.remove('active');
+// ── Firebase 監聽：trips ──
+onValue(ref(db, 'trips'), function(snap) {
+  trips = snap.val() || {};
+  renderTripSelect(currentTripId);
   render();
-}
-function updateStatus(itemId,newStatus){
-  var items=getItems();
-  var item=items.find(function(i){return i.id===itemId;});
-  if(item){item.status=newStatus;saveItems(items);}
-  updateBanner();
-  var card=document.querySelector('.item-card[data-id="'+itemId+'"]');
-  if(!card)return;
-  card.setAttribute('data-status',newStatus);
-  card.classList.toggle('confirmed',newStatus==='已確認');
-  var sel=card.querySelector('.status-select');
-  if(sel)sel.setAttribute('data-status',newStatus);
-}
-function deleteItem(itemId){
-  saveItems(getItems().filter(function(i){return i.id!==itemId;}));
-  var card=document.querySelector('.item-card[data-id="'+itemId+'"]');
-  if(card){
-    card.style.transition='opacity 0.2s,transform 0.2s';
-    card.style.opacity='0'; card.style.transform='translateX(12px)';
-    setTimeout(render,220);
-  } else { render(); }
-}
+  setSyncStatus('live');
+}, function(err) {
+  setSyncStatus('error');
+  console.error('trips error', err);
+});
 
-// 主 Render
-function render(){
-  document.getElementById('ai-import-btn').style.display=currentTripId?'':'none';
-  if(!currentTripId){
-    document.getElementById('items-container').innerHTML='';
-    document.getElementById('empty-state').style.display='none';
-    document.getElementById('no-trip-state').style.display='';
-    document.getElementById('pending-banner').style.display='none';
-    document.getElementById('filters').style.display='none';
-    document.getElementById('add-section').style.display='none';
-    document.getElementById('trip-meta').style.display='none';
-    document.getElementById('delete-trip-btn').style.display='none';
+// ── Firebase 監聽：items ──
+onValue(ref(db, 'items'), function(snap) {
+  items = snap.val() || {};
+  render();
+}, function(err) {
+  console.error('items error', err);
+});
+
+// ── 旅程 CRUD ──
+window.createTrip = function() {
+  var name  = document.getElementById('modal-trip-name').value.trim();
+  var start = document.getElementById('modal-start').value;
+  var end   = document.getElementById('modal-end').value;
+  if (!name) { alert('請輸入旅程名稱'); return; }
+  setSyncStatus('syncing');
+  var newRef = push(ref(db, 'trips'));
+  set(newRef, { name: name, startDate: start, endDate: end }).then(function() {
+    closeTripModal();
+    currentTripId = newRef.key;
+    setSyncStatus('live');
+  });
+};
+
+window.deleteCurrentTrip = function() {
+  if (!currentTripId) return;
+  var trip = trips[currentTripId];
+  if (!trip) return;
+  if (!confirm('確定要刪除「' + trip.name + '」？此旅程的所有行程項目也會一起刪除。')) return;
+  setSyncStatus('syncing');
+  // 刪除該旅程的所有 items
+  Object.keys(items).forEach(function(k) {
+    if (items[k].tripId === currentTripId) remove(ref(db, 'items/' + k));
+  });
+  remove(ref(db, 'trips/' + currentTripId)).then(function() {
+    currentTripId = null;
+    setSyncStatus('live');
+  });
+};
+
+// ── 項目 CRUD ──
+window.addItem = function() {
+  if (!currentTripId) return;
+  var name     = document.getElementById('new-name').value.trim();
+  var day      = parseInt(document.getElementById('new-day').value) || 1;
+  var category = document.getElementById('new-category').value;
+  var status   = document.getElementById('new-status').value;
+  var notes    = document.getElementById('new-notes').value.trim();
+  if (!name) { alert('請輸入項目名稱'); return; }
+  // 計算 order（同一天最大 order + 1）
+  var maxOrder = 0;
+  Object.values(items).forEach(function(i) {
+    if (i.tripId === currentTripId && i.day === day) maxOrder = Math.max(maxOrder, (i.order||0) + 1);
+  });
+  setSyncStatus('syncing');
+  push(ref(db, 'items'), { tripId: currentTripId, day: day, name: name, category: category, status: status, notes: notes, order: maxOrder });
+  document.getElementById('new-name').value  = '';
+  document.getElementById('new-notes').value = '';
+  document.getElementById('add-section').style.display = 'none';
+  var btn = document.getElementById('add-toggle-btn');
+  if (btn) btn.classList.remove('active');
+};
+
+window.updateStatus = function(itemKey, newStatus) {
+  setSyncStatus('syncing');
+  update(ref(db, 'items/' + itemKey), { status: newStatus });
+  // 就地更新卡片樣式
+  var card = document.querySelector('.item-card[data-id="' + itemKey + '"]');
+  if (card) {
+    card.setAttribute('data-status', newStatus);
+    card.classList.toggle('confirmed', newStatus === '已確認');
+    var sel = card.querySelector('.status-select');
+    if (sel) sel.setAttribute('data-status', newStatus);
+  }
+};
+
+window.deleteItem = function(itemKey) {
+  setSyncStatus('syncing');
+  var card = document.querySelector('.item-card[data-id="' + itemKey + '"]');
+  if (card) {
+    card.style.transition = 'opacity 0.2s,transform 0.2s';
+    card.style.opacity = '0'; card.style.transform = 'translateX(12px)';
+  }
+  remove(ref(db, 'items/' + itemKey));
+};
+
+// ── 主 Render ──
+window.render = function() {
+  document.getElementById('ai-import-btn').style.display = currentTripId ? '' : 'none';
+
+  if (!currentTripId) {
+    document.getElementById('items-container').innerHTML = '';
+    document.getElementById('empty-state').style.display    = 'none';
+    document.getElementById('no-trip-state').style.display  = '';
+    document.getElementById('pending-banner').style.display = 'none';
+    document.getElementById('filters').style.display        = 'none';
+    document.getElementById('add-section').style.display    = 'none';
+    document.getElementById('delete-trip-btn').style.display= 'none';
     return;
   }
-  document.getElementById('no-trip-state').style.display='none';
-  document.getElementById('pending-banner').style.display='';
-  document.getElementById('filters').style.display='';
-  document.getElementById('delete-trip-btn').style.display='';
 
-  var trips=getTrips();
-  var trip=trips.find(function(t){return t.id===currentTripId;});
-  if(trip){
-    var dl=daysUntil(trip.startDate);
-    if(dl>0){
-      document.getElementById('greeting-text').textContent='出發前 '+dl+' 天';
-      document.getElementById('greeting-sub').textContent='哪些項目還沒確認？';
-    } else if(dl===0){
-      document.getElementById('greeting-text').textContent='今天出發！';
-      document.getElementById('greeting-sub').textContent='最後確認一次吧';
-    } else {
-      document.getElementById('greeting-text').textContent=trip.name;
-      document.getElementById('greeting-sub').textContent='行前確認紀錄';
-    }
+  document.getElementById('no-trip-state').style.display   = 'none';
+  document.getElementById('pending-banner').style.display  = '';
+  document.getElementById('filters').style.display         = '';
+  document.getElementById('delete-trip-btn').style.display = '';
+
+  // 歡迎語
+  var trip = trips[currentTripId];
+  if (trip) {
+    var dl = daysUntil(trip.startDate);
+    if (dl > 0) { document.getElementById('greeting-text').textContent = '出發前 ' + dl + ' 天'; document.getElementById('greeting-sub').textContent = '哪些項目還沒確認？'; }
+    else if (dl === 0) { document.getElementById('greeting-text').textContent = '今天出發！'; document.getElementById('greeting-sub').textContent = '最後確認一次吧'; }
+    else { document.getElementById('greeting-text').textContent = trip.name; document.getElementById('greeting-sub').textContent = '行前確認紀錄'; }
   }
 
-  var allItems=getItems().filter(function(i){return i.tripId===currentTripId;});
+  var allItems = Object.entries(items)
+    .filter(function(e) { return e[1].tripId === currentTripId; })
+    .map(function(e) { return Object.assign({ _key: e[0] }, e[1]); });
+
   updateBannerFromItems(allItems);
 
-  var filtered=allItems;
-  if(currentFilter==='未確認') filtered=allItems.filter(function(i){return PENDING_STATUSES.has(i.status);});
-  else if(currentFilter!=='all') filtered=allItems.filter(function(i){return i.category===currentFilter;});
+  var filtered = allItems;
+  if (currentFilter === '未確認') filtered = allItems.filter(function(i) { return PENDING_STATUSES.has(i.status); });
+  else if (currentFilter !== 'all') filtered = allItems.filter(function(i) { return i.category === currentFilter; });
 
-  var container=document.getElementById('items-container');
-  if(allItems.length===0){container.innerHTML='';document.getElementById('empty-state').style.display='';return;}
-  document.getElementById('empty-state').style.display='none';
+  var container = document.getElementById('items-container');
+  if (allItems.length === 0) { container.innerHTML = ''; document.getElementById('empty-state').style.display = ''; return; }
+  document.getElementById('empty-state').style.display = 'none';
 
-  var byDay={};
-  filtered.forEach(function(item){if(!byDay[item.day])byDay[item.day]=[];byDay[item.day].push(item);});
-  // 每天的項目依 order 欄位排序
-  Object.keys(byDay).forEach(function(d){
-    byDay[d].sort(function(a,b){return (a.order||0)-(b.order||0);});
-  });
-  var days=Object.keys(byDay).map(Number).sort(function(a,b){return a-b;});
+  var byDay = {};
+  filtered.forEach(function(item) { if (!byDay[item.day]) byDay[item.day] = []; byDay[item.day].push(item); });
+  Object.keys(byDay).forEach(function(d) { byDay[d].sort(function(a,b) { return (a.order||0)-(b.order||0); }); });
+  var days = Object.keys(byDay).map(Number).sort(function(a,b){return a-b;});
 
-  if(days.length===0){
-    container.innerHTML='<div class="empty-state"><div class="empty-state-icon">✅</div><div class="empty-state-text">這個分類下沒有項目</div></div>';
-    return;
-  }
-  container.innerHTML=days.map(function(day){
-    var dayItems=byDay[day];
-    var pc=dayItems.filter(function(i){return PENDING_STATUSES.has(i.status);}).length;
-    var badge=pc>0?'<span class="category-count-badge has-pending">'+pc+' 未確認</span>':'<span class="category-count-badge">✓ 全確認</span>';
-    return '<div class="category-section" data-day="'+day+'"><div class="category-header"><div class="category-header-label">Day '+day+'</div>'+badge+'</div><div class="items-list" data-day="'+day+'">'+dayItems.map(renderCard).join('')+'</div></div>';
+  if (days.length === 0) { container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✅</div><div class="empty-state-text">這個分類下沒有項目</div></div>'; return; }
+
+  container.innerHTML = days.map(function(day) {
+    var dayItems = byDay[day];
+    var pc = dayItems.filter(function(i) { return PENDING_STATUSES.has(i.status); }).length;
+    var badge = pc > 0 ? '<span class="category-count-badge has-pending">' + pc + ' 未確認</span>' : '<span class="category-count-badge">✓ 全確認</span>';
+    return '<div class="category-section" data-day="' + day + '"><div class="category-header"><div class="category-header-label">Day ' + day + '</div>' + badge + '</div><div class="items-list" data-day="' + day + '">' + dayItems.map(renderCard).join('') + '</div></div>';
   }).join('');
-  // 綁定 drag & drop 事件
-  initDragDrop();
-}
 
-function renderCard(item){
-  var icon=CAT_ICONS[item.category]||'📌';
-  var confirmed=item.status==='已確認';
-  var notesHtml=item.notes
-    ? '<div class="item-notes" onclick="startEditNotes('+item.id+',this)" title="點擊編輯備註">'+escapeHtml(item.notes)+'</div>'
-    : '<div class="item-notes item-notes-empty" onclick="startEditNotes('+item.id+',this)" title="點擊新增備註">＋ 新增備註</div>';
-  var opts=STATUSES.map(function(s){return '<option value="'+s+'"'+(s===item.status?' selected':'')+'>'+s+'</option>';}).join('');
-  // 拖曳把手 SVG（六個點）
-  var handleSvg='<svg width="10" height="16" viewBox="0 0 10 16" fill="none"><circle cx="3" cy="3" r="1.2" fill="currentColor"/><circle cx="7" cy="3" r="1.2" fill="currentColor"/><circle cx="3" cy="8" r="1.2" fill="currentColor"/><circle cx="7" cy="8" r="1.2" fill="currentColor"/><circle cx="3" cy="13" r="1.2" fill="currentColor"/><circle cx="7" cy="13" r="1.2" fill="currentColor"/></svg>';
-  return '<div class="item-card'+(confirmed?' confirmed':'')+'" draggable="true" data-id="'+item.id+'" data-day="'+item.day+'" data-order="'+(item.order||0)+'" data-status="'+escapeHtml(item.status)+'">' +
-    '<div class="drag-handle" title="拖曳排序">'+handleSvg+'</div>' +
-    '<div class="item-day"><strong>D'+item.day+'</strong><span>'+icon+'</span></div>' +
-    '<div class="item-main">' +
-      '<div class="item-name" onclick="startEditName('+item.id+',this)" title="點擊編輯名稱">'+escapeHtml(item.name)+'</div>' +
-      '<div class="item-meta">'+escapeHtml(item.category)+'</div>' +
-      notesHtml +
-    '</div>' +
+  initDragDrop();
+};
+
+function renderCard(item) {
+  var icon = CAT_ICONS[item.category] || '📌';
+  var confirmed = item.status === '已確認';
+  var notesHtml = item.notes
+    ? '<div class="item-notes" onclick="startEditNotes(\'' + item._key + '\',this)" title="點擊編輯備註">' + escapeHtml(item.notes) + '</div>'
+    : '<div class="item-notes item-notes-empty" onclick="startEditNotes(\'' + item._key + '\',this)" title="點擊新增備註">＋ 新增備註</div>';
+  var opts = STATUSES.map(function(s) { return '<option value="' + s + '"' + (s === item.status ? ' selected' : '') + '>' + s + '</option>'; }).join('');
+  var handleSvg = '<svg width="10" height="16" viewBox="0 0 10 16" fill="none"><circle cx="3" cy="3" r="1.2" fill="currentColor"/><circle cx="7" cy="3" r="1.2" fill="currentColor"/><circle cx="3" cy="8" r="1.2" fill="currentColor"/><circle cx="7" cy="8" r="1.2" fill="currentColor"/><circle cx="3" cy="13" r="1.2" fill="currentColor"/><circle cx="7" cy="13" r="1.2" fill="currentColor"/></svg>';
+  return '<div class="item-card' + (confirmed ? ' confirmed' : '') + '" draggable="true" data-id="' + item._key + '" data-day="' + item.day + '" data-order="' + (item.order||0) + '" data-status="' + escapeHtml(item.status) + '">' +
+    '<div class="drag-handle" title="拖曳排序">' + handleSvg + '</div>' +
+    '<div class="item-day"><strong>D' + item.day + '</strong></div>' +
+    '<div class="item-main"><div class="item-name" onclick="startEditName(\'' + item._key + '\',this)" title="點擊編輯名稱">' + escapeHtml(item.name) + '</div><div class="item-meta"><span class="cat-tag">' + escapeHtml(item.category) + '</span></div>' + notesHtml + '</div>' +
     '<div class="item-status-wrap" style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">' +
-    '<select class="status-select" data-status="'+escapeHtml(item.status)+'" onchange="updateStatus('+item.id+',this.value);this.setAttribute(\'data-status\',this.value)">'+opts+'</select>' +
-    '<button class="btn btn-ghost" style="padding:4px 10px;font-size:11px" onclick="deleteItem('+item.id+')">刪除</button>' +
+    '<select class="status-select" data-status="' + escapeHtml(item.status) + '" onchange="updateStatus(\'' + item._key + '\',this.value);this.setAttribute(\'data-status\',this.value)">' + opts + '</select>' +
+    '<button class="btn btn-ghost" style="padding:4px 10px;font-size:11px" onclick="deleteItem(\'' + item._key + '\')">刪除</button>' +
     '</div></div>';
 }
 
-// Banner
-function updateBanner(){
-  if(!currentTripId)return;
-  updateBannerFromItems(getItems().filter(function(i){return i.tripId===currentTripId;}));
-}
-function updateBannerFromItems(items){
-  var pending=items.filter(function(i){return PENDING_STATUSES.has(i.status);}).length;
-  var total=items.length;
-  var el=document.getElementById('pending-banner');
-  document.getElementById('pending-count').textContent=pending;
-  if(pending===0&&total>0){
+// ── Banner ──
+function updateBannerFromItems(allItems) {
+  var pending = allItems.filter(function(i) { return PENDING_STATUSES.has(i.status); }).length;
+  var total   = allItems.length;
+  var el = document.getElementById('pending-banner');
+  document.getElementById('pending-count').textContent = pending;
+  if (pending === 0 && total > 0) {
     el.classList.add('all-clear');
-    document.getElementById('pending-label').textContent='件未確認';
-    document.getElementById('pending-msg').textContent='全部確認完畢，可以出發了 ✓';
-  } else if(pending===0&&total===0){
+    document.getElementById('pending-label').textContent = '件未確認';
+    document.getElementById('pending-msg').textContent   = '全部確認完畢，可以出發了 ✓';
+  } else if (total === 0) {
     el.classList.remove('all-clear');
-    document.getElementById('pending-label').textContent='件項目';
-    document.getElementById('pending-msg').textContent='新增第一個行程項目';
+    document.getElementById('pending-label').textContent = '件項目';
+    document.getElementById('pending-msg').textContent   = '新增第一個行程項目';
   } else {
     el.classList.remove('all-clear');
-    document.getElementById('pending-label').textContent='件未確認';
-    document.getElementById('pending-msg').textContent=total+' 項中 '+(total-pending)+' 項已確認';
+    document.getElementById('pending-label').textContent = '件未確認';
+    document.getElementById('pending-msg').textContent   = total + ' 項中 ' + (total - pending) + ' 項已確認';
   }
 }
 
-// Trip select
-function renderTripSelect(selectId){
-  var trips=getTrips();
-  var sel=document.getElementById('trip-select');
-  sel.innerHTML='<option value="">— 選擇旅程 —</option>'+
-    trips.map(function(t){return '<option value="'+t.id+'"'+(t.id===selectId?' selected':'')+'>'+escapeHtml(t.name)+'</option>';}).join('');
+// ── 旅程選擇器 ──
+function renderTripSelect(selectId) {
+  var sel = document.getElementById('trip-select');
+  sel.innerHTML = '<option value="">— 選擇旅程 —</option>' +
+    Object.entries(trips).map(function(e) {
+      return '<option value="' + e[0] + '"' + (e[0] === selectId ? ' selected' : '') + '>' + escapeHtml(e[1].name) + '</option>';
+    }).join('');
 }
-function onTripChange(){
-  var val=document.getElementById('trip-select').value;
-  currentTripId=val?parseInt(val):null;
+window.onTripChange = function() {
+  var val = document.getElementById('trip-select').value;
+  currentTripId = val || null;
   render();
-}
+};
 
-// 新增表單展開收合
-function toggleAddSection(){
-  var sec=document.getElementById('add-section');
-  var btn=document.getElementById('add-toggle-btn');
-  var isOpen=sec.style.display!=='none';
-  sec.style.display=isOpen?'none':'';
-  if(btn) btn.classList.toggle('active',!isOpen);
-}
-
-// Filter
-function setFilter(f,btn){
-  currentFilter=f;
-  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
+// ── Filter ──
+window.setFilter = function(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
   btn.classList.add('active');
   render();
-}
+};
 
-// 旅程 Modal
-function openTripModal(){
+// ── Add section toggle ──
+window.toggleAddSection = function() {
+  var sec = document.getElementById('add-section');
+  var btn = document.getElementById('add-toggle-btn');
+  var isOpen = sec.style.display !== 'none';
+  sec.style.display = isOpen ? 'none' : '';
+  if (btn) btn.classList.toggle('active', !isOpen);
+};
+
+// ── 旅程 Modal ──
+window.openTripModal = function() {
   document.getElementById('trip-modal').classList.add('open');
-  setTimeout(function(){document.getElementById('modal-trip-name').focus();},100);
-}
-function closeTripModal(){
+  setTimeout(function() {
+    var input = document.getElementById('modal-trip-name');
+    input.focus();
+    if (!input._composingBound) {
+      input._composingBound = true;
+      var composing = false;
+      input.addEventListener('compositionstart', function(){ composing = true; });
+      input.addEventListener('compositionend',   function(){ composing = false; });
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !composing) {
+          e.preventDefault();
+          createTrip();
+        }
+      });
+    }
+  }, 100);
+};
+window.closeTripModal = function() {
   document.getElementById('trip-modal').classList.remove('open');
-  document.getElementById('modal-trip-name').value='';
-  document.getElementById('modal-start').value='';
-  document.getElementById('modal-end').value='';
-}
-function closeTripModalOnOverlay(e){if(e.target===document.getElementById('trip-modal'))closeTripModal();}
+  document.getElementById('modal-trip-name').value = '';
+  document.getElementById('modal-start').value     = '';
+  document.getElementById('modal-end').value       = '';
+};
+window.closeTripModalOnOverlay = function(e) { if (e.target === document.getElementById('trip-modal')) closeTripModal(); };
 
-// AI Modal
-var parsedPreviewItems=[];
-var selectedPreviewIds=new Set();
+// ── AI 匯入 ──
+var parsedPreviewItems = [];
+var selectedPreviewIds = new Set();
 
-function openAiModal(){
-  if(!currentTripId)return;
-  document.getElementById('ai-key-input').value=localStorage.getItem(AI_KEY_STORE)||'';
-  document.getElementById('ai-paste-input').value='';
-  document.getElementById('ai-modal-error').innerHTML='';
+window.openAiModal = function() {
+  if (!currentTripId) return;
+  document.getElementById('ai-key-input').value     = localStorage.getItem(AI_KEY_STORE) || '';
+  document.getElementById('ai-paste-input').value   = '';
+  document.getElementById('ai-modal-error').innerHTML = '';
   document.getElementById('ai-modal').classList.add('open');
-  setTimeout(function(){document.getElementById('ai-paste-input').focus();},100);
-}
-function closeAiModal(){
-  var text=document.getElementById('ai-paste-input').value.trim();
-  if(text&&!confirm('還有未解析的內容，確定要離開嗎？'))return;
+  setTimeout(function() { document.getElementById('ai-paste-input').focus(); }, 100);
+};
+window.closeAiModal = function() {
+  var text = document.getElementById('ai-paste-input').value.trim();
+  if (text && !confirm('還有未解析的內容，確定要離開嗎？')) return;
   document.getElementById('ai-modal').classList.remove('open');
-}
-function closeAiModalForce(){
-  document.getElementById('ai-modal').classList.remove('open');
-}
-function closeAiModalOnOverlay(e){if(e.target===document.getElementById('ai-modal'))closeAiModal();}
-function openPreviewModal(){
-  document.getElementById('preview-loading').style.display='';
-  document.getElementById('preview-result').style.display='none';
+};
+function closeAiModalForce() { document.getElementById('ai-modal').classList.remove('open'); }
+window.closeAiModalOnOverlay = function(e) { if (e.target === document.getElementById('ai-modal')) closeAiModal(); };
+window.openPreviewModal = function() {
+  document.getElementById('preview-loading').style.display = '';
+  document.getElementById('preview-result').style.display  = 'none';
   document.getElementById('preview-modal').classList.add('open');
-}
-function closePreviewModal(){document.getElementById('preview-modal').classList.remove('open');}
-function closePreviewModalOnOverlay(e){if(e.target===document.getElementById('preview-modal'))closePreviewModal();}
+};
+window.closePreviewModal = function() { document.getElementById('preview-modal').classList.remove('open'); };
+window.closePreviewModalOnOverlay = function(e) { if (e.target === document.getElementById('preview-modal')) closePreviewModal(); };
 
-async function runAiParse(){
-  var text=document.getElementById('ai-paste-input').value.trim();
-  var key=document.getElementById('ai-key-input').value.trim();
-  var errEl=document.getElementById('ai-modal-error');
-  errEl.innerHTML='';
-  if(!text){errEl.innerHTML='<div class="ai-error">請先貼入行程文字。</div>';return;}
-  if(!key) {errEl.innerHTML='<div class="ai-error">請輸入 Gemini API Key（AIza...）。</div>';return;}
-  localStorage.setItem(AI_KEY_STORE,key);
+window.runAiParse = async function() {
+  var text  = document.getElementById('ai-paste-input').value.trim();
+  var key   = document.getElementById('ai-key-input').value.trim();
+  var errEl = document.getElementById('ai-modal-error');
+  errEl.innerHTML = '';
+  if (!text) { errEl.innerHTML = '<div class="ai-error">請先貼入行程文字。</div>'; return; }
+  if (!key)  { errEl.innerHTML = '<div class="ai-error">請輸入 Gemini API Key（AIza...）。</div>'; return; }
+  localStorage.setItem(AI_KEY_STORE, key);
   closeAiModalForce();
   openPreviewModal();
 
-  var trips=getTrips();
-  var trip=trips.find(function(t){return t.id===currentTripId;});
-  var ctx=trip?'旅程名稱：'+trip.name+'，出發日：'+(trip.startDate||'不明')+'，回程日：'+(trip.endDate||'不明'):'旅程資訊不明';
-
-  var prompt='你是旅遊行程解析助理。從使用者貼入的非結構化文字中提取行程項目，回傳 JSON 陣列。\n\n每個項目格式：\n{"name":"項目名稱","day":1,"category":"餐廳","status":"候選","notes":"備註"}\n\ncategory 只能是：餐廳、景點、交通、住宿、其他\nstatus 判斷：已訂位/有確認號→已確認；等回覆/pending→等回覆；要訂/還沒訂→跟進中；想去/考慮→候選；已選但未行動→選定\n\n只回傳純 JSON 陣列，不加任何說明或 markdown。\n\n旅程背景：'+ctx+'\n\n以下是行程文字：\n\n'+text;
+  var trip = trips[currentTripId];
+  var ctx  = trip ? '旅程名稱：' + trip.name + '，出發日：' + (trip.startDate||'不明') + '，回程日：' + (trip.endDate||'不明') : '旅程資訊不明';
+  var prompt = '你是旅遊行程解析助理。從使用者貼入的非結構化文字中提取行程項目，回傳 JSON 陣列。\n\n每個項目格式：\n{"name":"項目名稱","day":1,"category":"餐廳","status":"候選","notes":"備註"}\n\ncategory 只能是：餐廳、景點、交通、住宿、其他\nstatus 判斷：已訂位/有確認號→已確認；等回覆/pending→等回覆；要訂/還沒訂→跟進中；想去/考慮→候選；已選但未行動→選定\n\n只回傳純 JSON 陣列，不加任何說明或 markdown。\n\n旅程背景：' + ctx + '\n\n以下是行程文字：\n\n' + text;
 
   try {
-    var res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='+encodeURIComponent(key),{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        contents:[{parts:[{text:prompt}]}],
-        generationConfig:{temperature:0,responseMimeType:'application/json'}
-      })
+    var res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + encodeURIComponent(key), {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0, responseMimeType: 'application/json' } })
     });
-    if(!res.ok){
-      var body=await res.json().catch(function(){return {};});
-      var msg=(body.error&&body.error.message)||'API 錯誤 '+res.status;
-      throw new Error(msg);
-    }
-    var data=await res.json();
-    // Gemini 回應結構：data.candidates[0].content.parts[0].text
-    var raw=((data.candidates&&data.candidates[0]&&data.candidates[0].content&&data.candidates[0].content.parts&&data.candidates[0].content.parts[0]&&data.candidates[0].content.parts[0].text)||'').replace(/```json|```/g,'').trim();
-    var parsed;
-    try{parsed=JSON.parse(raw);}catch(e){throw new Error('AI 回傳格式無法解析，請再試一次。');}
-    if(!Array.isArray(parsed)||parsed.length===0)throw new Error('AI 未解析出任何項目，請確認文字包含行程資訊。');
-
-    parsedPreviewItems=parsed.map(function(p,i){
-      return {
-        _pid:i,
-        name:String(p.name||'未命名項目'),
-        day:parseInt(p.day)||1,
-        category:VALID_CATS.indexOf(p.category)>=0?p.category:'其他',
-        status:STATUSES.indexOf(p.status)>=0?p.status:'候選',
-        notes:String(p.notes||'')
-      };
-    });
-    selectedPreviewIds=new Set(parsedPreviewItems.map(function(p){return p._pid;}));
+    if (!res.ok) { var b = await res.json().catch(function(){return{};}); throw new Error((b.error&&b.error.message)||'API 錯誤 '+res.status); }
+    var data = await res.json();
+    var raw  = ((data.candidates&&data.candidates[0]&&data.candidates[0].content&&data.candidates[0].content.parts&&data.candidates[0].content.parts[0]&&data.candidates[0].content.parts[0].text)||'').replace(/```json|```/g,'').trim();
+    var parsed; try { parsed = JSON.parse(raw); } catch(e) { throw new Error('AI 回傳格式無法解析，請再試一次。'); }
+    if (!Array.isArray(parsed)||parsed.length===0) throw new Error('AI 未解析出任何項目。');
+    parsedPreviewItems = parsed.map(function(p,i) { return { _pid:i, name:String(p.name||'未命名'), day:parseInt(p.day)||1, category:VALID_CATS.indexOf(p.category)>=0?p.category:'其他', status:STATUSES.indexOf(p.status)>=0?p.status:'候選', notes:String(p.notes||'') }; });
+    selectedPreviewIds = new Set(parsedPreviewItems.map(function(p){return p._pid;}));
     renderPreview();
-  } catch(err){
-    document.getElementById('preview-loading').style.display='none';
-    document.getElementById('preview-result').style.display='';
-    document.getElementById('preview-list').innerHTML='';
-    document.getElementById('preview-error').innerHTML='<div class="ai-error">⚠ '+escapeHtml(err.message)+'</div>';
-    document.getElementById('preview-count').textContent='';
+  } catch(err) {
+    document.getElementById('preview-loading').style.display = 'none';
+    document.getElementById('preview-result').style.display  = '';
+    document.getElementById('preview-list').innerHTML        = '';
+    document.getElementById('preview-error').innerHTML       = '<div class="ai-error">⚠ ' + escapeHtml(err.message) + '</div>';
+    document.getElementById('preview-count').textContent     = '';
   }
-}
+};
 
-function renderPreview(){
-  document.getElementById('preview-loading').style.display='none';
-  document.getElementById('preview-result').style.display='';
-  document.getElementById('preview-error').innerHTML='';
-  document.getElementById('preview-count').textContent='共解析出 '+parsedPreviewItems.length+' 個項目';
-  document.getElementById('preview-list').innerHTML=parsedPreviewItems.map(function(p){
-    var sel=selectedPreviewIds.has(p._pid);
-    var icon=CAT_ICONS[p.category]||'📌';
-    var notesHtml=p.notes?'<div class="preview-notes">'+escapeHtml(p.notes)+'</div>':'';
-    return '<div class="preview-item'+(sel?' selected':'')+'" onclick="togglePreviewItem('+p._pid+')">' +
+function renderPreview() {
+  document.getElementById('preview-loading').style.display = 'none';
+  document.getElementById('preview-result').style.display  = '';
+  document.getElementById('preview-error').innerHTML       = '';
+  document.getElementById('preview-count').textContent     = '共解析出 ' + parsedPreviewItems.length + ' 個項目';
+  document.getElementById('preview-list').innerHTML = parsedPreviewItems.map(function(p) {
+    var sel = selectedPreviewIds.has(p._pid);
+    var icon = CAT_ICONS[p.category]||'📌';
+    var notesHtml = p.notes ? '<div class="preview-notes">' + escapeHtml(p.notes) + '</div>' : '';
+    return '<div class="preview-item' + (sel?' selected':'') + '" onclick="togglePreviewItem(' + p._pid + ')">' +
       '<div class="preview-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4.5 7.5L8.5 2.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
-      '<div class="preview-body"><div class="preview-name">'+escapeHtml(p.name)+'</div><div class="preview-meta">Day '+p.day+' · '+icon+' '+escapeHtml(p.category)+'</div>'+notesHtml+'</div>' +
-      '<span class="preview-status-badge badge-'+p.status+'">'+escapeHtml(p.status)+'</span></div>';
+      '<div class="preview-body"><div class="preview-name">' + escapeHtml(p.name) + '</div><div class="preview-meta">Day ' + p.day + ' · ' + icon + ' ' + escapeHtml(p.category) + '</div>' + notesHtml + '</div>' +
+      '<span class="preview-status-badge badge-' + p.status + '">' + escapeHtml(p.status) + '</span></div>';
   }).join('');
 }
-function togglePreviewItem(pid){
-  if(selectedPreviewIds.has(pid))selectedPreviewIds.delete(pid);
-  else selectedPreviewIds.add(pid);
-  renderPreview();
-}
-function toggleSelectAll(){
-  if(selectedPreviewIds.size===parsedPreviewItems.length)selectedPreviewIds.clear();
-  else selectedPreviewIds=new Set(parsedPreviewItems.map(function(p){return p._pid;}));
-  renderPreview();
-}
-function confirmImport(){
-  if(selectedPreviewIds.size===0){
-    document.getElementById('preview-error').innerHTML='<div class="ai-error">請至少選取一個項目。</div>';
-    return;
-  }
-  var toImport=parsedPreviewItems.filter(function(p){return selectedPreviewIds.has(p._pid);});
-  var items=getItems();
-  toImport.forEach(function(p){
-    items.push({id:nextId(items),tripId:currentTripId,day:p.day,name:p.name,category:p.category,status:p.status,notes:p.notes});
+window.togglePreviewItem = function(pid) { if(selectedPreviewIds.has(pid))selectedPreviewIds.delete(pid); else selectedPreviewIds.add(pid); renderPreview(); };
+window.toggleSelectAll   = function() { if(selectedPreviewIds.size===parsedPreviewItems.length)selectedPreviewIds.clear(); else selectedPreviewIds=new Set(parsedPreviewItems.map(function(p){return p._pid;})); renderPreview(); };
+window.confirmImport = function() {
+  if (selectedPreviewIds.size === 0) { document.getElementById('preview-error').innerHTML = '<div class="ai-error">請至少選取一個項目。</div>'; return; }
+  var toImport = parsedPreviewItems.filter(function(p) { return selectedPreviewIds.has(p._pid); });
+  setSyncStatus('syncing');
+  toImport.forEach(function(p) {
+    var maxOrder = 0;
+    Object.values(items).forEach(function(i) { if(i.tripId===currentTripId&&i.day===p.day)maxOrder=Math.max(maxOrder,(i.order||0)+1); });
+    push(ref(db,'items'), { tripId:currentTripId, day:p.day, name:p.name, category:p.category, status:p.status, notes:p.notes, order:maxOrder });
   });
-  saveItems(items);
   closePreviewModal();
-  render();
-}
+};
 
-// 日期工具
-function formatDate(s){if(!s)return'';var d=new Date(s+'T00:00:00');return(d.getMonth()+1)+'/'+d.getDate();}
-function dateDiff(s,e){if(!s||!e)return 0;return Math.round((new Date(e+'T00:00:00')-new Date(s+'T00:00:00'))/86400000)+1;}
-function daysUntil(s){if(!s)return null;var today=new Date();today.setHours(0,0,0,0);return Math.round((new Date(s+'T00:00:00')-today)/86400000);}
+// ── Inline 編輯 ──
+function getParentCard(el) { var n=el; while(n&&!n.classList.contains('item-card'))n=n.parentNode; return n; }
+function disableDrag(el) { var c=getParentCard(el); if(c)c.setAttribute('draggable','false'); }
+function enableDrag(el)  { var c=getParentCard(el); if(c)c.setAttribute('draggable','true');  }
 
-// inline 編輯
-function getParentCard(el){
-  var node=el;
-  while(node&&!node.classList.contains('item-card'))node=node.parentNode;
-  return node;
-}
-function disableDrag(el){ var c=getParentCard(el); if(c)c.setAttribute('draggable','false'); }
-function enableDrag(el){  var c=getParentCard(el); if(c)c.setAttribute('draggable','true');  }
-
-function startEditName(itemId, el){
-  var current=el.textContent;
-  var input=document.createElement('input');
-  input.className='inline-input';
-  input.value=current;
-  el.replaceWith(input);
-  disableDrag(input);
-  input.focus(); input.select();
-  var composing=false;
-  input.addEventListener('compositionstart',function(){composing=true;});
-  input.addEventListener('compositionend',function(){composing=false;});
-  function save(){
+window.startEditName = function(itemKey, el) {
+  var current = el.textContent;
+  var input = document.createElement('input');
+  input.className = 'inline-input'; input.value = current;
+  el.replaceWith(input); disableDrag(input); input.focus(); input.select();
+  var composing = false;
+  input.addEventListener('compositionstart', function(){composing=true;});
+  input.addEventListener('compositionend',   function(){composing=false;});
+  function save() {
     enableDrag(input);
-    var val=input.value.trim()||current;
-    var items=getItems();
-    var item=items.find(function(i){return i.id===itemId;});
-    if(item&&val!==item.name){item.name=val;saveItems(items);}
-    var div=document.createElement('div');
-    div.className='item-name';
-    div.setAttribute('title','點擊編輯名稱');
-    div.textContent=val;
-    div.addEventListener('click',function(){startEditName(itemId,div);});
+    var val = input.value.trim() || current;
+    if (val !== current) { setSyncStatus('syncing'); update(ref(db,'items/'+itemKey), {name:val}); }
+    var div = document.createElement('div');
+    div.className='item-name'; div.setAttribute('title','點擊編輯名稱'); div.textContent=val;
+    div.addEventListener('click', function(){startEditName(itemKey,div);});
     input.replaceWith(div);
   }
-  input.addEventListener('blur',save);
-  input.addEventListener('keydown',function(e){
-    if(e.key==='Enter'&&!composing){e.preventDefault();input.blur();}
-    if(e.key==='Escape'){input.value=current;input.blur();}
-  });
-}
+  input.addEventListener('blur', save);
+  input.addEventListener('keydown', function(e) { if(e.key==='Enter'&&!composing){e.preventDefault();input.blur();} if(e.key==='Escape'){input.value=current;input.blur();} });
+};
 
-function startEditNotes(itemId, el){
-  var items=getItems();
-  var item=items.find(function(i){return i.id===itemId;});
-  var current=item?item.notes:'';
-  var input=document.createElement('input');
-  input.className='inline-input notes';
-  input.value=current;
-  input.placeholder='新增備註…';
-  el.replaceWith(input);
-  disableDrag(input);
-  input.focus(); if(current)input.select();
-  var composing=false;
-  input.addEventListener('compositionstart',function(){composing=true;});
-  input.addEventListener('compositionend',function(){composing=false;});
-  function save(){
+window.startEditNotes = function(itemKey, el) {
+  var item = items[itemKey];
+  var current = item ? item.notes : '';
+  var input = document.createElement('input');
+  input.className='inline-input notes'; input.value=current; input.placeholder='新增備註…';
+  el.replaceWith(input); disableDrag(input); input.focus(); if(current)input.select();
+  var composing = false;
+  input.addEventListener('compositionstart', function(){composing=true;});
+  input.addEventListener('compositionend',   function(){composing=false;});
+  function save() {
     enableDrag(input);
-    var val=input.value.trim();
-    var items2=getItems();
-    var item2=items2.find(function(i){return i.id===itemId;});
-    if(item2){item2.notes=val;saveItems(items2);}
-    var div=document.createElement('div');
-    if(val){
-      div.className='item-notes';
-      div.textContent=val;
-    } else {
-      div.className='item-notes item-notes-empty';
-      div.textContent='＋ 新增備註';
-    }
-    div.setAttribute('title',val?'點擊編輯備註':'點擊新增備註');
-    div.addEventListener('click',function(){startEditNotes(itemId,div);});
+    var val = input.value.trim();
+    if (val !== current) { setSyncStatus('syncing'); update(ref(db,'items/'+itemKey), {notes:val}); }
+    var div = document.createElement('div');
+    if (val) { div.className='item-notes'; div.textContent=val; }
+    else { div.className='item-notes item-notes-empty'; div.textContent='＋ 新增備註'; }
+    div.setAttribute('title', val?'點擊編輯備註':'點擊新增備註');
+    div.addEventListener('click', function(){startEditNotes(itemKey,div);});
     input.replaceWith(div);
   }
-  input.addEventListener('blur',save);
-  input.addEventListener('keydown',function(e){
-    if(e.key==='Enter'&&!composing){e.preventDefault();input.blur();}
-    if(e.key==='Escape'){input.value=current;input.blur();}
-  });
-}
+  input.addEventListener('blur', save);
+  input.addEventListener('keydown', function(e) { if(e.key==='Enter'&&!composing){e.preventDefault();input.blur();} if(e.key==='Escape'){input.value=current;input.blur();} });
+};
 
 // ── Drag & Drop ──
-var dragSrcId=null;
-var dragIndicator=null;
+var dragSrcKey = null;
 
-function initDragDrop(){
-  document.querySelectorAll('.item-card[draggable]').forEach(function(card){
-    card.addEventListener('dragstart',onDragStart);
-    card.addEventListener('dragend',onDragEnd);
-    card.addEventListener('dragover',onDragOver);
-    card.addEventListener('dragleave',onDragLeave);
-    card.addEventListener('drop',onDrop);
+function initDragDrop() {
+  document.querySelectorAll('.item-card[draggable]').forEach(function(card) {
+    card.addEventListener('dragstart', onDragStart);
+    card.addEventListener('dragend',   onDragEnd);
+    card.addEventListener('dragover',  onDragOver);
+    card.addEventListener('dragleave', onDragLeave);
+    card.addEventListener('drop',      onDrop);
   });
-  // 也讓各天的 items-list 接受 drop（拖到空白區域算最後一位）
-  document.querySelectorAll('.items-list').forEach(function(list){
-    list.addEventListener('dragover',onListDragOver);
-    list.addEventListener('dragleave',onListDragLeave);
-    list.addEventListener('drop',onListDrop);
+  document.querySelectorAll('.items-list').forEach(function(list) {
+    list.addEventListener('dragover',  onListDragOver);
+    list.addEventListener('dragleave', onListDragLeave);
+    list.addEventListener('drop',      onListDrop);
   });
 }
-
-function onDragStart(e){
-  dragSrcId=parseInt(this.getAttribute('data-id'));
-  this.classList.add('dragging');
-  e.dataTransfer.effectAllowed='move';
-  e.dataTransfer.setData('text/plain', dragSrcId);
+function onDragStart(e) { dragSrcKey=this.getAttribute('data-id'); this.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain',dragSrcKey); }
+function onDragEnd()    { this.classList.remove('dragging'); clearIndicators(); dragSrcKey=null; }
+function onDragOver(e)  { e.preventDefault(); e.stopPropagation(); if(this.getAttribute('data-id')===dragSrcKey)return; clearIndicators(); var rect=this.getBoundingClientRect(); showIndicator(this, e.clientY<rect.top+rect.height/2?'before':'after'); }
+function onDragLeave(e) { if(!this.contains(e.relatedTarget))clearIndicators(); }
+function onDrop(e) {
+  e.preventDefault(); e.stopPropagation(); clearIndicators(); if(!dragSrcKey)return;
+  var targetKey=this.getAttribute('data-id'); if(targetKey===dragSrcKey)return;
+  var before=e.clientY<this.getBoundingClientRect().top+this.getBoundingClientRect().height/2;
+  dropItem(dragSrcKey, targetKey, before, parseInt(this.getAttribute('data-day')));
 }
-function onDragEnd(){
-  this.classList.remove('dragging');
-  clearIndicators();
-  dragSrcId=null;
-}
-
-function onDragOver(e){
-  e.preventDefault(); e.stopPropagation();
-  e.dataTransfer.dropEffect='move';
-  if(parseInt(this.getAttribute('data-id'))===dragSrcId)return;
-  clearIndicators();
-  // 判斷游標在卡片上半還是下半
-  var rect=this.getBoundingClientRect();
-  var mid=rect.top+rect.height/2;
-  showIndicator(this, e.clientY < mid ? 'before' : 'after');
-}
-function onDragLeave(e){
-  if(!this.contains(e.relatedTarget)) clearIndicators();
-}
-function onDrop(e){
-  e.preventDefault(); e.stopPropagation();
-  clearIndicators();
-  if(!dragSrcId)return;
-  var targetId=parseInt(this.getAttribute('data-id'));
-  if(targetId===dragSrcId)return;
-  var rect=this.getBoundingClientRect();
-  var before=e.clientY < rect.top+rect.height/2;
-  var targetDay=parseInt(this.getAttribute('data-day'));
-  dropItem(dragSrcId, targetId, before, targetDay);
-}
-
-// 拖到 list 空白區（最後位置）
-function onListDragOver(e){
-  e.preventDefault(); e.stopPropagation();
-  e.dataTransfer.dropEffect='move';
-  // 如果 list 裡有卡片正在 dragover，交給卡片自己處理
-  var cards=this.querySelectorAll('.item-card');
-  var overCard=false;
-  cards.forEach(function(c){if(c.matches(':hover'))overCard=true;});
-  if(!overCard){
-    clearIndicators();
-    // 在 list 最後一張卡後顯示指示線
-    var last=this.querySelector('.item-card:last-child');
-    if(last) showIndicator(last,'after');
-  }
-}
-function onListDragLeave(e){
-  if(!this.contains(e.relatedTarget)) clearIndicators();
-}
-function onListDrop(e){
-  e.preventDefault(); e.stopPropagation();
-  clearIndicators();
-  if(!dragSrcId)return;
+function onListDragOver(e) { e.preventDefault(); e.stopPropagation(); var last=this.querySelector('.item-card:last-child'); if(last){clearIndicators();showIndicator(last,'after');} }
+function onListDragLeave(e) { if(!this.contains(e.relatedTarget))clearIndicators(); }
+function onListDrop(e) {
+  e.preventDefault(); e.stopPropagation(); clearIndicators(); if(!dragSrcKey)return;
   var targetDay=parseInt(this.getAttribute('data-day'));
   var cards=Array.from(this.querySelectorAll('.item-card'));
-  // 放到這個 list 的最後
   var lastCard=cards[cards.length-1];
-  if(lastCard){
-    var lastId=parseInt(lastCard.getAttribute('data-id'));
-    if(lastId!==dragSrcId) dropItem(dragSrcId, lastId, false, targetDay);
-  } else {
-    // 空的 list，直接移過去
-    var items=getItems();
-    var src=items.find(function(i){return i.id===dragSrcId;});
-    if(src){src.day=targetDay;src.order=0;saveItems(items);render();}
-  }
+  if(lastCard){var lastKey=lastCard.getAttribute('data-id'); if(lastKey!==dragSrcKey)dropItem(dragSrcKey,lastKey,false,targetDay);}
+  else { setSyncStatus('syncing'); update(ref(db,'items/'+dragSrcKey),{day:targetDay,order:0}); }
 }
-
-function showIndicator(card, position){
+function showIndicator(card,pos) {
   clearIndicators();
-  dragIndicator=document.createElement('div');
-  dragIndicator.className='drop-indicator active';
-  if(position==='before'){
-    card.parentNode.insertBefore(dragIndicator,card);
-  } else {
-    card.parentNode.insertBefore(dragIndicator,card.nextSibling);
-  }
+  var ind=document.createElement('div'); ind.className='drop-indicator active';
+  if(pos==='before')card.parentNode.insertBefore(ind,card); else card.parentNode.insertBefore(ind,card.nextSibling);
 }
-function clearIndicators(){
-  document.querySelectorAll('.drop-indicator').forEach(function(el){el.remove();});
-  dragIndicator=null;
-}
+function clearIndicators() { document.querySelectorAll('.drop-indicator').forEach(function(el){el.remove();}); }
 
-function dropItem(srcId, targetId, insertBefore, targetDay){
-  var items=getItems();
-  var src=items.find(function(i){return i.id===srcId;});
-  var target=items.find(function(i){return i.id===targetId;});
-  if(!src||!target)return;
-
-  // 更新天數
-  src.day=targetDay;
-
-  // 取出同一天的所有項目（不含 src），按 order 排序
-  var dayItems=items
-    .filter(function(i){return i.id!==srcId&&i.tripId===currentTripId&&i.day===targetDay;})
-    .sort(function(a,b){return (a.order||0)-(b.order||0);});
-
-  // 找到 target 的位置，插入 src
-  var insertIdx=dayItems.findIndex(function(i){return i.id===targetId;});
-  if(!insertBefore) insertIdx++;
-  dayItems.splice(insertIdx,0,src);
-
-  // 重新寫入 order
-  dayItems.forEach(function(item,idx){
-    var it=items.find(function(i){return i.id===item.id;});
-    if(it) it.order=idx;
-  });
-
-  saveItems(items);
-  render();
+function dropItem(srcKey, targetKey, insertBefore, targetDay) {
+  // 取同一天的項目（不含 src），排序
+  var dayItems = Object.entries(items)
+    .filter(function(e){return e[1].tripId===currentTripId&&e[0]!==srcKey&&e[1].day===targetDay;})
+    .map(function(e){return {_key:e[0],order:e[1].order||0};})
+    .sort(function(a,b){return a.order-b.order;});
+  var insertIdx = dayItems.findIndex(function(i){return i._key===targetKey;});
+  if (!insertBefore) insertIdx++;
+  dayItems.splice(insertIdx, 0, {_key:srcKey});
+  setSyncStatus('syncing');
+  var updates = {};
+  dayItems.forEach(function(item,idx){ updates['items/'+item._key+'/order']=idx; });
+  updates['items/'+srcKey+'/day'] = targetDay;
+  import('https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js').then(function(m){ m.update(ref(db), updates); });
 }
 
-// XSS 防護
-function escapeHtml(str){
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
+// ── 日期工具 ──
+function formatDate(s) { if(!s)return''; var d=new Date(s+'T00:00:00'); return(d.getMonth()+1)+'/'+d.getDate(); }
+function daysUntil(s)  { if(!s)return null; var t=new Date(); t.setHours(0,0,0,0); return Math.round((new Date(s+'T00:00:00')-t)/86400000); }
 
-// 鍵盤
-document.addEventListener('keydown',function(e){
-  if(e.key==='Escape'){closeTripModal();closeAiModal();closePreviewModal();}
-  if(e.key==='Enter'&&document.getElementById('trip-modal').classList.contains('open'))createTrip();
+// ── XSS 防護 ──
+function escapeHtml(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+// ── 鍵盤 ──
+document.addEventListener('keydown', function(e) {
+  if (e.key==='Escape') { closeTripModal(); closeAiModal(); closePreviewModal(); }
 });
 
-// 初始化
-renderTripSelect(null);
+// ── 初始化 ──
+setSyncStatus('connecting');
 render();
 </script>
 </body>
