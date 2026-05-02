@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Scout — 行前確認</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -16,44 +16,34 @@
   --wheat-50:#FBF0E0; --wheat-200:#E8C898; --wheat-400:#C4915A; --wheat-700:#7A5230;
   --red-50:#FEF0EE; --red-200:#FACFC8; --red-400:#E07060; --red-600:#C0392B;
   --font-sans:'Noto Sans TC',sans-serif;
-  --font-serif:'Noto Serif TC',sans-serif;
 }
-body { background:var(--linen-50); font-family:var(--font-sans); color:var(--linen-900); min-height:100vh; padding-bottom:6rem; }
+body { background:var(--linen-50); font-family:var(--font-sans); color:var(--linen-900); min-height:100vh; padding-bottom:5rem; }
 
-/* 同步狀態 */
+/* ── 同步狀態 ── */
 .sync-bar { position:fixed; top:0; left:0; right:0; height:3px; z-index:999; background:transparent; transition:background 0.3s; }
-.sync-bar.syncing { background:var(--sage-400); animation:syncPulse 1s ease-in-out infinite; }
-.sync-bar.error   { background:#e74c3c; }
-@keyframes syncPulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-.sync-badge { position:fixed; bottom:1.5rem; right:1.5rem; z-index:200; background:#fff; border:0.5px solid var(--linen-200); border-radius:100px; padding:6px 14px; font-size:12px; color:var(--linen-400); box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; align-items:center; gap:6px; transition:all 0.3s; }
-.sync-dot { width:7px; height:7px; border-radius:50%; background:var(--linen-200); transition:background 0.3s; }
-.sync-badge.live    .sync-dot { background:var(--sage-800); }
-.sync-badge.syncing .sync-dot { background:var(--wheat-400); animation:syncPulse 0.8s infinite; }
-.sync-badge.error   .sync-dot { background:#e74c3c; }
+.sync-bar.syncing { background:var(--sage-400); animation:pulse 1s ease-in-out infinite; }
+.sync-bar.error { background:#e74c3c; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-/* ── 舊版首頁 Header ── */
-.header-home { background:var(--linen-50); border-bottom:0.5px solid var(--linen-200); padding:1.25rem 1.5rem; position:sticky; top:0; z-index:100; }
-.header-home-inner { max-width:680px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
-.brand { display:flex; align-items:center; gap:10px; }
-.brand-logo { width:36px; height:36px; border:2px solid var(--sage-800); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
-.brand-name { font-size:22px; color:var(--linen-900); font-family:var(--font-serif); }
-.brand-sub  { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--linen-400); }
-.btn-ghost { background:transparent; color:var(--linen-400); border:1px solid var(--linen-200); border-radius:100px; padding:8px 18px; font-size:13px; font-family:var(--font-sans); cursor:pointer; transition:all 0.15s; }
-.btn-ghost:hover { color:var(--linen-900); border-color:var(--linen-400); }
-.main-home { max-width:680px; margin:0 auto; padding:2rem 1.5rem 0; }
-.page-title { font-size:30px; font-weight:500; font-family:var(--font-serif); color:var(--linen-900); line-height:1.3; margin-bottom:0.3rem; }
-.page-sub   { font-size:16px; font-style:italic; color:var(--linen-400); font-family:var(--font-serif); margin-bottom:2rem; }
-.trip-selector-home { display:flex; align-items:center; gap:10px; margin-bottom:1.5rem; flex-wrap:wrap; }
-.trip-select-home { flex:1; min-width:160px; border:1.5px solid var(--sage-400); border-radius:100px; padding:9px 36px 9px 18px; font-size:14px; font-family:var(--font-sans); color:var(--linen-900); background:#fff; outline:none; appearance:none; cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%238AB8A0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; }
+/* ── 底部導覽列 ── */
+.bottom-nav { position:fixed; bottom:0; left:0; right:0; z-index:100; background:#fff; border-top:0.5px solid var(--linen-200); display:flex; height:56px; }
+.nav-tab { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; cursor:pointer; border:none; background:transparent; color:var(--linen-400); font-family:var(--font-sans); font-size:10px; transition:color 0.15s; padding:0; }
+.nav-tab.active { color:var(--sage-800); }
+.nav-tab svg { transition:stroke 0.15s; }
+.nav-badge { background:var(--red-600); color:#fff; border-radius:100px; font-size:9px; padding:1px 5px; min-width:16px; text-align:center; line-height:1.4; }
 
-/* ── 新版 Header（選了旅程後）── */
-.header-board { background:var(--linen-50); border-bottom:0.5px solid var(--linen-200); padding:10px 16px; position:sticky; top:0; z-index:100; display:flex; align-items:center; gap:10px; }
-.board-logo { width:28px; height:28px; border:2px solid var(--sage-800); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
-.trip-select-board { flex:1; min-width:0; border:1.5px solid var(--sage-400); border-radius:100px; padding:5px 28px 5px 12px; font-size:12px; font-family:var(--font-sans); color:var(--linen-900); background:#fff; outline:none; appearance:none; cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%238AB8A0' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 10px center; }
+/* ── 共用 Header ── */
+.app-header { background:var(--linen-50); border-bottom:0.5px solid var(--linen-200); padding:10px 16px; position:sticky; top:0; z-index:90; display:flex; align-items:center; gap:10px; }
+.header-logo { width:28px; height:28px; border:2px solid var(--sage-800); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
+.header-title { font-size:16px; font-weight:500; color:var(--linen-900); }
+.header-spacer { flex:1; }
 
-/* 必須未確認徽章（紅色）*/
+/* 旅程選擇器 */
+.trip-select { flex:1; min-width:0; border:1.5px solid var(--sage-400); border-radius:100px; padding:5px 28px 5px 12px; font-size:12px; font-family:var(--font-sans); color:var(--linen-900); background:#fff; outline:none; appearance:none; cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%238AB8A0' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 10px center; }
+
+/* 必須未確認徽章 */
 .urgent-badge { flex-shrink:0; background:var(--red-50); border:1.5px solid var(--red-200); border-radius:100px; padding:3px 10px; display:flex; align-items:center; gap:3px; transition:all 0.3s; }
-.urgent-badge-num { font-size:14px; font-weight:700; color:var(--red-600); font-family:var(--font-serif); line-height:1; }
+.urgent-badge-num { font-size:13px; font-weight:700; color:var(--red-600); line-height:1; }
 .urgent-badge-lbl { font-size:10px; color:var(--red-400); }
 .urgent-badge.clear { background:var(--sage-50); border-color:var(--sage-200); }
 .urgent-badge.clear .urgent-badge-num { color:var(--sage-800); }
@@ -64,14 +54,19 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
 .add-btn { width:28px; height:28px; border-radius:50%; background:var(--sage-800); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#fff; font-size:17px; line-height:1; transition:background 0.15s; }
 .add-btn:hover { background:var(--sage-900); }
 
-/* Filter 列 */
-.filter-bar { display:flex; gap:6px; padding:8px 16px; overflow-x:auto; scrollbar-width:none; border-bottom:0.5px solid var(--linen-200); background:#fff; position:sticky; top:49px; z-index:99; }
+/* ── 視角切換 tab（行程頁）── */
+.view-tabs { display:flex; background:#fff; border-bottom:0.5px solid var(--linen-200); padding:0 16px; gap:0; }
+.view-tab { flex:1; padding:9px 0; text-align:center; font-size:12px; font-family:var(--font-sans); color:var(--linen-400); cursor:pointer; border:none; background:transparent; border-bottom:2px solid transparent; transition:all 0.15s; }
+.view-tab.active { color:var(--sage-800); border-bottom-color:var(--sage-800); font-weight:500; }
+
+/* ── Filter 列 ── */
+.filter-bar { display:flex; gap:6px; padding:8px 16px; overflow-x:auto; scrollbar-width:none; border-bottom:0.5px solid var(--linen-200); background:#fff; position:sticky; top:99px; z-index:89; }
 .filter-bar::-webkit-scrollbar { display:none; }
 .filter-btn { flex-shrink:0; border-radius:100px; padding:4px 12px; font-size:11px; font-family:var(--font-sans); cursor:pointer; border:1.5px solid var(--linen-200); background:#fff; color:var(--linen-700); white-space:nowrap; transition:all 0.15s; }
 .filter-btn:hover { border-color:var(--sage-400); color:var(--sage-800); }
 .filter-btn.active { background:var(--sage-800); border-color:var(--sage-800); color:#fff; }
 
-/* 新增面板 */
+/* ── 新增面板 ── */
 .add-panel { display:none; background:#fff; border-bottom:0.5px solid var(--linen-200); padding:14px 16px; }
 .add-panel.open { display:block; }
 .add-panel-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
@@ -88,36 +83,28 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
 .btn-primary:hover { background:var(--sage-900); }
 .icon-circle { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; background:var(--sage-50); }
 
-/* ── 優先級儀表板主體 ── */
-.board-body { max-width:720px; margin:0 auto; padding:14px 16px; }
-
-/* 區段標題 */
-.section-label { display:flex; align-items:center; gap:8px; padding:8px 2px 6px; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; font-family:var(--font-sans); }
-.section-label.urgent { color:var(--red-600); }
+/* ── 優先級儀表板 ── */
+.board-body { padding:12px 16px; }
+.section-label { display:flex; align-items:center; gap:8px; padding:8px 2px 6px; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; }
+.section-label.urgent   { color:var(--red-600); }
 .section-label.flexible { color:var(--wheat-700); }
-.section-label.done { color:var(--linen-400); }
+.section-label.done     { color:var(--linen-400); }
 .section-line { flex:1; height:0.5px; }
 .section-label.urgent   .section-line { background:var(--red-200); }
 .section-label.flexible .section-line { background:var(--wheat-200); }
 .section-label.done     .section-line { background:var(--linen-200); }
-
 .items-list { display:flex; flex-direction:column; gap:5px; margin-bottom:4px; }
 
-/* 項目卡片 */
-.item-card { background:#fff; border:0.5px solid var(--linen-200); border-radius:12px; padding:9px 12px; display:flex; align-items:center; gap:10px; position:relative; overflow:hidden; transition:border-color 0.2s, box-shadow 0.2s; animation:slideIn 0.18s ease both; }
+/* 行程卡片（優先級視角）*/
+.item-card { background:#fff; border:0.5px solid var(--linen-200); border-radius:12px; padding:9px 12px; display:flex; align-items:center; gap:10px; position:relative; overflow:hidden; transition:border-color 0.2s, box-shadow 0.2s; animation:slideIn 0.15s ease both; }
 .item-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; }
-
-/* 必須 × 未確認 */
 .item-card.must.pending { border-color:var(--red-200); background:var(--red-50); }
 .item-card.must.pending::before { background:var(--red-600); }
-/* 彈性 × 未確認 */
 .item-card.flex.pending::before { background:var(--wheat-400); }
-/* 已確認 */
 .item-card.confirmed { opacity:0.45; }
 .item-card.confirmed::before { background:var(--sage-800); }
 .item-card:hover { border-color:var(--sage-200); box-shadow:0 3px 10px rgba(61,107,84,0.07); }
 .item-card.must.pending:hover { border-color:var(--red-400); }
-
 .item-main { flex:1; min-width:0; }
 .item-name { font-size:13px; font-weight:500; color:var(--linen-900); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.4; }
 .item-card.must.pending .item-name { color:var(--red-600); }
@@ -125,41 +112,115 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
 .item-sub { display:flex; align-items:center; gap:5px; margin-top:3px; flex-wrap:wrap; }
 .cat-tag { display:inline-block; font-size:10px; color:var(--linen-400); background:var(--linen-50); border:0.5px solid var(--linen-200); border-radius:4px; padding:1px 6px; }
 .day-tag { font-size:10px; color:var(--linen-400); }
-.item-notes-sm { font-size:11px; color:var(--linen-700); font-style:italic; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:120px; }
-
+.item-notes-sm { font-size:11px; color:var(--linen-700); font-style:italic; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100px; }
 .item-right { flex-shrink:0; display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
-
-/* 優先級切換按鈕 */
 .priority-btn { font-size:10px; border-radius:100px; padding:2px 9px; cursor:pointer; border:none; font-family:var(--font-sans); transition:all 0.15s; white-space:nowrap; }
 .priority-btn.must { background:var(--red-50); color:var(--red-600); border:1px solid var(--red-200); }
 .priority-btn.flex { background:var(--wheat-50); color:var(--wheat-700); border:1px solid var(--wheat-200); }
-.priority-btn:hover { filter:brightness(0.95); }
-
-/* 狀態選擇器 */
 .status-select { border:1.5px solid var(--linen-200); border-radius:100px; padding:2px 20px 2px 8px; font-size:10px; font-family:var(--font-sans); color:var(--linen-700); background:var(--linen-50); outline:none; appearance:none; cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg width='8' height='5' viewBox='0 0 8 5' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L4 4L7 1' stroke='%23A8A298' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 7px center; flex-shrink:0; transition:all 0.15s; }
 .status-select[data-status="候選"]   { background-color:var(--linen-50);  color:var(--linen-400);  border-color:var(--linen-200); }
 .status-select[data-status="選定"]   { background-color:var(--wheat-50);  color:var(--wheat-700);  border-color:var(--wheat-200); }
 .status-select[data-status="跟進中"] { background-color:var(--sage-50);   color:var(--sage-800);   border-color:var(--sage-200); }
 .status-select[data-status="等回覆"] { background-color:var(--wheat-50);  color:var(--wheat-700);  border-color:var(--wheat-400); }
 .status-select[data-status="已確認"] { background-color:var(--sage-50);   color:var(--sage-800);   border-color:var(--sage-800); }
-
 .delete-btn { background:none; border:none; cursor:pointer; font-size:11px; color:var(--linen-200); padding:0 2px; transition:color 0.15s; }
 .delete-btn:hover { color:var(--linen-400); }
-
-/* Inline 編輯 */
 .inline-input { font-family:var(--font-sans); font-size:13px; font-weight:500; color:var(--linen-900); background:var(--sage-50); border:1.5px solid var(--sage-400); border-radius:6px; padding:2px 6px; outline:none; width:100%; }
 
-/* Empty states */
+/* ── Kanban 看板（Day 視角）── */
+.kanban-wrap { padding:16px; overflow-x:auto; }
+.board-group { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:12px; }
+.day-col { display:flex; flex-direction:column; gap:8px; }
+.day-header { display:flex; align-items:center; gap:6px; padding-bottom:8px; border-bottom:0.5px solid var(--linen-200); }
+.day-dot { width:8px; height:8px; border-radius:50%; background:var(--sage-400); flex-shrink:0; }
+.day-dot.has-pending { background:var(--wheat-400); }
+.day-dot.all-clear   { background:var(--sage-800); }
+.day-title { font-size:12px; font-weight:500; color:var(--linen-700); letter-spacing:0.04em; }
+.day-count { font-size:10px; color:var(--linen-400); margin-left:auto; }
+.day-count.has-pending { color:var(--wheat-400); }
+.kanban-card { background:#fff; border:0.5px solid var(--linen-200); border-radius:12px; padding:10px 12px; display:flex; flex-direction:column; gap:4px; position:relative; overflow:hidden; transition:border-color 0.2s,box-shadow 0.2s; animation:slideIn 0.15s ease both; }
+.kanban-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; }
+.kanban-card[data-status="候選"]::before   { background:var(--linen-400); }
+.kanban-card[data-status="選定"]::before   { background:var(--wheat-400); }
+.kanban-card[data-status="跟進中"]::before { background:var(--sage-400); }
+.kanban-card[data-status="等回覆"]::before { background:var(--wheat-700); }
+.kanban-card[data-status="已確認"]::before { background:var(--sage-800); }
+.kanban-card:hover { border-color:var(--sage-200); box-shadow:0 4px 12px rgba(61,107,84,0.08); }
+.kanban-card.confirmed { opacity:0.5; }
+.kanban-card-top { display:flex; align-items:flex-start; justify-content:space-between; gap:6px; }
+.kanban-name { font-size:13px; font-weight:500; color:var(--linen-900); flex:1; min-width:0; line-height:1.4; word-break:break-all; }
+.kanban-name:hover { background:var(--linen-50); border-radius:4px; cursor:text; outline:1.5px dashed var(--linen-200); outline-offset:2px; }
+.kanban-card-bottom { display:flex; align-items:center; justify-content:space-between; gap:4px; }
+.col-empty { text-align:center; padding:1.5rem 0.5rem; color:var(--linen-200); font-size:11px; font-style:italic; }
+
+/* ── 行李 & 購物 清單 ── */
+.checklist-wrap { padding:12px 16px; }
+.checklist-add-row { display:flex; gap:8px; margin-bottom:16px; }
+.checklist-input { flex:1; border:1.5px solid var(--sage-400); border-radius:100px; padding:8px 16px; font-size:13px; font-family:var(--font-sans); color:var(--linen-900); background:#fff; outline:none; transition:border-color 0.15s; }
+.checklist-input:focus { border-color:var(--sage-800); }
+.checklist-add-btn { width:36px; height:36px; border-radius:50%; background:var(--sage-800); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#fff; font-size:18px; line-height:1; transition:background 0.15s; }
+.checklist-add-btn:hover { background:var(--sage-900); }
+.checklist-progress { font-size:11px; color:var(--linen-400); margin-bottom:10px; }
+.checklist-progress-bar { height:3px; background:var(--linen-200); border-radius:100px; margin-bottom:12px; overflow:hidden; }
+.checklist-progress-fill { height:100%; background:var(--sage-800); border-radius:100px; transition:width 0.3s; }
+.checklist-items { display:flex; flex-direction:column; gap:6px; }
+.checklist-item { display:flex; align-items:center; gap:10px; background:#fff; border:0.5px solid var(--linen-200); border-radius:12px; padding:10px 12px; transition:opacity 0.2s; animation:slideIn 0.15s ease both; }
+.checklist-item.checked { opacity:0.45; }
+.check-circle { width:20px; height:20px; border-radius:50%; border:1.5px solid var(--linen-200); flex-shrink:0; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.15s; background:#fff; }
+.checklist-item.checked .check-circle { background:var(--sage-800); border-color:var(--sage-800); }
+.checklist-item-name { flex:1; font-size:13px; color:var(--linen-900); line-height:1.4; }
+.checklist-item.checked .checklist-item-name { text-decoration:line-through; color:var(--linen-400); }
+.checklist-delete { background:none; border:none; cursor:pointer; font-size:11px; color:var(--linen-200); padding:0 2px; transition:color 0.15s; flex-shrink:0; }
+.checklist-delete:hover { color:var(--linen-400); }
+
+/* ── 首頁（未選旅程）── */
+.home-header { background:var(--linen-50); border-bottom:0.5px solid var(--linen-200); padding:1.25rem 1.5rem; position:sticky; top:0; z-index:90; }
+.home-header-inner { max-width:680px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+.brand { display:flex; align-items:center; gap:10px; }
+.brand-logo { width:36px; height:36px; border:2px solid var(--sage-800); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+.brand-name { font-size:22px; color:var(--linen-900); font-weight:500; }
+.brand-sub { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--linen-400); }
+.btn-ghost { background:transparent; color:var(--linen-400); border:1px solid var(--linen-200); border-radius:100px; padding:8px 18px; font-size:13px; font-family:var(--font-sans); cursor:pointer; transition:all 0.15s; }
+.btn-ghost:hover { color:var(--linen-900); border-color:var(--linen-400); }
+.home-body { max-width:680px; margin:0 auto; padding:2rem 1.5rem 0; }
+.page-title { font-size:30px; font-weight:500; color:var(--linen-900); line-height:1.3; margin-bottom:0.3rem; }
+.page-sub { font-size:16px; color:var(--linen-400); margin-bottom:2rem; }
+.trip-selector-row { display:flex; align-items:center; gap:10px; margin-bottom:1.5rem; flex-wrap:wrap; }
+.trip-select-home { flex:1; min-width:160px; border:1.5px solid var(--sage-400); border-radius:100px; padding:9px 36px 9px 18px; font-size:14px; font-family:var(--font-sans); color:var(--linen-900); background:#fff; outline:none; appearance:none; cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%238AB8A0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; }
+
+/* ── 固定隨身項目 ── */
+.fixed-section { background:#fff; border:0.5px solid var(--linen-200); border-radius:14px; padding:12px 14px; margin-bottom:8px; }
+.fixed-section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.fixed-section-label { font-size:11px; font-weight:500; color:var(--linen-700); letter-spacing:0.06em; text-transform:uppercase; }
+.fixed-reset-btn { font-size:11px; color:var(--linen-400); background:none; border:none; cursor:pointer; padding:0; font-family:var(--font-sans); text-decoration:underline; }
+.fixed-reset-btn:hover { color:var(--linen-900); }
+.fixed-group-label { font-size:10px; color:var(--linen-400); letter-spacing:0.06em; text-transform:uppercase; margin:10px 0 5px; }
+.fixed-group-label:first-of-type { margin-top:0; }
+.fixed-items { display:flex; flex-direction:column; gap:4px; }
+.fixed-item { display:flex; align-items:center; gap:8px; padding:6px 0; border-bottom:0.5px solid var(--linen-50); cursor:pointer; }
+.fixed-item:last-child { border-bottom:none; }
+.fixed-item.checked { opacity:0.45; }
+.fixed-check { width:18px; height:18px; border-radius:50%; border:1.5px solid var(--linen-200); flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all 0.15s; background:#fff; }
+.fixed-item.checked .fixed-check { background:var(--sage-800); border-color:var(--sage-800); }
+.fixed-item-name { font-size:13px; color:var(--linen-900); line-height:1.4; flex:1; }
+.fixed-item.checked .fixed-item-name { text-decoration:line-through; color:var(--linen-400); }
+.fixed-item-note { font-size:10px; color:var(--linen-400); font-style:italic; }
+
+/* 分隔線 */
+.section-divider { display:flex; align-items:center; gap:8px; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--linen-400); margin:14px 0 10px; }
+.section-divider::before, .section-divider::after { content:''; flex:1; height:0.5px; background:var(--linen-200); }
+
+/* 空狀態 */
 .empty-state { text-align:center; padding:3rem 1rem; color:var(--linen-400); }
 .empty-state-icon { font-size:2.5rem; margin-bottom:1rem; }
-.empty-state-text { font-size:15px; font-style:italic; font-family:var(--font-serif); }
+.empty-state-text { font-size:15px; }
 
 /* Modal */
 .modal-overlay { position:fixed; inset:0; background:rgba(60,56,48,0.45); z-index:200; display:flex; align-items:center; justify-content:center; padding:1rem; opacity:0; pointer-events:none; transition:opacity 0.2s; }
 .modal-overlay.open { opacity:1; pointer-events:all; }
 .modal { background:#fff; border-radius:24px; padding:2rem; width:100%; max-width:440px; transform:translateY(12px); transition:transform 0.2s; }
 .modal-overlay.open .modal { transform:translateY(0); }
-.modal-title { font-size:22px; font-family:var(--font-serif); color:var(--linen-900); margin-bottom:1.5rem; }
+.modal-title { font-size:20px; font-weight:500; color:var(--linen-900); margin-bottom:1.5rem; }
 .modal-actions { display:flex; gap:10px; margin-top:1.5rem; justify-content:flex-end; }
 .ai-modal { max-width:560px; }
 .ai-textarea { width:100%; border:1.5px solid var(--sage-400); border-radius:16px; padding:14px 16px; font-size:14px; font-family:var(--font-sans); color:var(--linen-900); background:#fff; outline:none; resize:vertical; min-height:140px; line-height:1.7; }
@@ -170,7 +231,7 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
 .ai-loading { display:flex; flex-direction:column; align-items:center; gap:1rem; padding:2rem 0; }
 .ai-spinner { width:32px; height:32px; border:2.5px solid var(--sage-200); border-top-color:var(--sage-800); border-radius:50%; animation:spin 0.7s linear infinite; }
 @keyframes spin { to{transform:rotate(360deg)} }
-.ai-loading-text { font-size:14px; font-style:italic; color:var(--linen-400); font-family:var(--font-serif); }
+.ai-loading-text { font-size:14px; color:var(--linen-400); }
 .ai-error { background:#fff3f3; border:1px solid #f0c0c0; border-radius:12px; padding:12px 16px; font-size:13px; color:#c0392b; margin:1rem 0; }
 .preview-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
 .preview-count { font-size:12px; color:var(--linen-400); }
@@ -185,7 +246,6 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
 .preview-body { flex:1; min-width:0; }
 .preview-name { font-size:14px; font-weight:500; color:var(--linen-900); margin-bottom:2px; }
 .preview-meta { font-size:12px; color:var(--linen-400); }
-.preview-notes { font-size:12px; font-style:italic; color:var(--linen-700); margin-top:2px; }
 .preview-status-badge { font-size:11px; border-radius:100px; padding:2px 10px; white-space:nowrap; flex-shrink:0; }
 .badge-候選   { background:var(--linen-200); color:var(--linen-700); }
 .badge-選定   { background:var(--wheat-50); color:var(--wheat-700); border:1px solid var(--wheat-200); }
@@ -194,114 +254,195 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
 .badge-已確認 { background:var(--sage-50); color:var(--sage-800); border:1px solid var(--sage-800); }
 
 @keyframes slideIn { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+
+@media (max-width:600px) {
+  .board-group { grid-template-columns:1fr; }
+  .day-col { margin-bottom:1.5rem; }
+}
+@media (min-width:601px) and (max-width:900px) {
+  .board-group { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
 </style>
 </head>
 <body>
 
 <div class="sync-bar" id="sync-bar"></div>
-<div class="sync-badge" id="sync-badge"><div class="sync-dot"></div><span id="sync-label">連線中…</span></div>
 
-<!-- 舊版首頁 Header（未選旅程）-->
-<header class="header-home" id="header-home">
-  <div class="header-home-inner">
-    <div class="brand">
-      <div class="brand-logo">🔍</div>
-      <div><div class="brand-name">Scout</div><div class="brand-sub">行前確認</div></div>
+<!-- ══ 首頁（未選旅程）══ -->
+<div id="page-home">
+  <header class="home-header">
+    <div class="home-header-inner">
+      <div class="brand">
+        <div class="brand-logo">🔍</div>
+        <div><div class="brand-name">Scout</div><div class="brand-sub">行前確認</div></div>
+      </div>
+      <button class="btn-ghost" onclick="openTripModal()">＋ 新增旅程</button>
     </div>
-    <button class="btn-ghost" onclick="openTripModal()">＋ 新增旅程</button>
-  </div>
-</header>
-
-<!-- 新版 Header（選了旅程後）-->
-<header class="header-board" id="header-board" style="display:none">
-  <div class="board-logo">🔍</div>
-  <select class="trip-select-board" id="trip-select-board" onchange="onTripChange(this.value)">
-    <option value="">— 選擇旅程 —</option>
-  </select>
-  <div class="urgent-badge" id="urgent-badge">
-    <span class="urgent-badge-num" id="urgent-num">0</span>
-    <span class="urgent-badge-lbl" id="urgent-lbl">必須未確認</span>
-  </div>
-  <button class="ai-btn" onclick="openAiModal()">✦ AI</button>
-  <button class="add-btn" onclick="toggleAddPanel()" title="新增項目">＋</button>
-</header>
-
-<!-- Filter 列 -->
-<div class="filter-bar" id="filter-bar" style="display:none">
-  <button class="filter-btn active" onclick="setFilter('all',this)">全部</button>
-  <button class="filter-btn" onclick="setFilter('必須',this)">必須確認</button>
-  <button class="filter-btn" onclick="setFilter('彈性',this)">可以彈性</button>
-  <button class="filter-btn" onclick="setFilter('未確認',this)">未確認</button>
-  <button class="filter-btn" onclick="setFilter('已確認',this)">已確認</button>
-</div>
-
-<!-- 新增面板 -->
-<div class="add-panel" id="add-panel">
-  <div class="add-panel-header">
-    <div class="add-panel-title">新增行程項目</div>
-    <button class="add-panel-close" onclick="toggleAddPanel()">✕</button>
-  </div>
-  <div class="form-row">
-    <div class="form-field" style="flex:2;min-width:160px"><label class="form-label">項目名稱</label><input class="form-input" id="new-name" placeholder="例：鼎泰豐訂位"></div>
-    <div class="form-field" style="max-width:80px"><label class="form-label">第幾天</label><input class="form-input" id="new-day" type="number" min="1" placeholder="1"></div>
-  </div>
-  <div class="form-row">
-    <div class="form-field">
-      <label class="form-label">重要程度</label>
-      <select class="form-select" id="new-priority">
-        <option value="必須">必須確認</option>
-        <option value="彈性">可以彈性</option>
+  </header>
+  <div class="home-body">
+    <div class="page-title">出發前，先看清楚</div>
+    <div class="page-sub">哪些項目還沒確認？</div>
+    <div class="trip-selector-row">
+      <select class="trip-select-home" id="trip-select-home" onchange="onTripChange(this.value)">
+        <option value="">— 選擇旅程 —</option>
       </select>
+      <button class="btn-ghost" id="delete-trip-btn" onclick="deleteCurrentTrip()" style="display:none">刪除旅程</button>
     </div>
-    <div class="form-field">
-      <label class="form-label">分類</label>
-      <select class="form-select" id="new-category">
-        <option value="餐廳">餐廳</option>
-        <option value="景點">景點</option>
-        <option value="交通">交通</option>
-        <option value="住宿">住宿</option>
-        <option value="其他">其他</option>
-      </select>
+    <div class="empty-state" id="no-trip-state">
+      <div class="empty-state-icon">✈️</div>
+      <div class="empty-state-text">點右上角「新增旅程」開始</div>
     </div>
-    <div class="form-field">
-      <label class="form-label">初始狀態</label>
-      <select class="form-select" id="new-status">
-        <option value="候選">候選</option>
-        <option value="選定">選定</option>
-        <option value="跟進中">跟進中</option>
-        <option value="等回覆">等回覆</option>
-        <option value="已確認">已確認</option>
-      </select>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-field"><label class="form-label">備註（選填）</label><input class="form-input" id="new-notes" placeholder="例：需電話預約"></div>
-  </div>
-  <div class="form-submit-row">
-    <button class="btn-primary" onclick="addItem()">新增 <span class="icon-circle"><svg width="11" height="11" viewBox="0 0 13 13" fill="none"><path d="M6.5 2V11M2 6.5H11" stroke="#3D6B54" stroke-width="1.5" stroke-linecap="round"/></svg></span></button>
   </div>
 </div>
 
-<!-- 首頁主體（未選旅程）-->
-<main class="main-home" id="main-home">
-  <div class="page-title">出發前，先看清楚</div>
-  <div class="page-sub">哪些項目還沒確認？</div>
-  <div class="trip-selector-home">
-    <select class="trip-select-home" id="trip-select-home" onchange="onTripChange(this.value)">
+<!-- ══ 行程頁 ══ -->
+<div id="page-itinerary" style="display:none">
+  <header class="app-header">
+    <div class="header-logo">🔍</div>
+    <select class="trip-select" id="trip-select-board" onchange="onTripChange(this.value)">
       <option value="">— 選擇旅程 —</option>
     </select>
-    <button class="btn-ghost" id="delete-trip-btn" onclick="deleteCurrentTrip()" style="display:none">刪除旅程</button>
-  </div>
-  <div class="empty-state" id="no-trip-state">
-    <div class="empty-state-icon">✈️</div>
-    <div class="empty-state-text">點右上角「新增旅程」開始</div>
-  </div>
-</main>
+    <div class="urgent-badge" id="urgent-badge">
+      <span class="urgent-badge-num" id="urgent-num">0</span>
+      <span class="urgent-badge-lbl" id="urgent-lbl">必須未確認</span>
+    </div>
+    <button class="ai-btn" onclick="openAiModal()">✦ AI</button>
+    <button class="add-btn" onclick="toggleAddPanel()" title="新增項目">＋</button>
+  </header>
 
-<!-- 優先級儀表板主體（選了旅程後）-->
-<div id="board-body" style="display:none">
-  <div class="board-body" id="board-container"></div>
+  <!-- 視角切換 -->
+  <div class="view-tabs">
+    <button class="view-tab active" id="tab-priority" onclick="setView('priority')">優先級</button>
+    <button class="view-tab" id="tab-day" onclick="setView('day')">Day</button>
+  </div>
+
+  <!-- Filter 列（優先級視角）-->
+  <div class="filter-bar" id="filter-bar">
+    <button class="filter-btn active" onclick="setFilter('all',this)">全部</button>
+    <button class="filter-btn" onclick="setFilter('必須',this)">必須確認</button>
+    <button class="filter-btn" onclick="setFilter('彈性',this)">可以彈性</button>
+    <button class="filter-btn" onclick="setFilter('未確認',this)">未確認</button>
+    <button class="filter-btn" onclick="setFilter('已確認',this)">已確認</button>
+  </div>
+
+  <!-- 新增面板 -->
+  <div class="add-panel" id="add-panel">
+    <div class="add-panel-header">
+      <div class="add-panel-title">新增行程項目</div>
+      <button class="add-panel-close" onclick="toggleAddPanel()">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-field" style="flex:2;min-width:160px"><label class="form-label">項目名稱</label><input class="form-input" id="new-name" placeholder="例：鼎泰豐訂位"></div>
+      <div class="form-field" style="max-width:80px"><label class="form-label">第幾天</label><input class="form-input" id="new-day" type="number" min="1" placeholder="1"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-field"><label class="form-label">重要程度</label><select class="form-select" id="new-priority"><option value="必須">必須確認</option><option value="彈性">可以彈性</option></select></div>
+      <div class="form-field"><label class="form-label">分類</label><select class="form-select" id="new-category"><option value="餐廳">餐廳</option><option value="景點">景點</option><option value="交通">交通</option><option value="住宿">住宿</option><option value="其他">其他</option></select></div>
+      <div class="form-field"><label class="form-label">初始狀態</label><select class="form-select" id="new-status"><option value="候選">候選</option><option value="選定">選定</option><option value="跟進中">跟進中</option><option value="等回覆">等回覆</option><option value="已確認">已確認</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-field"><label class="form-label">備註（選填）</label><input class="form-input" id="new-notes" placeholder="例：需電話預約"></div>
+    </div>
+    <div class="form-submit-row">
+      <button class="btn-primary" onclick="addItem()">新增 <span class="icon-circle"><svg width="11" height="11" viewBox="0 0 13 13" fill="none"><path d="M6.5 2V11M2 6.5H11" stroke="#3D6B54" stroke-width="1.5" stroke-linecap="round"/></svg></span></button>
+    </div>
+  </div>
+
+  <!-- 優先級視角 -->
+  <div id="view-priority">
+    <div class="board-body" id="priority-container"></div>
+  </div>
+
+  <!-- Day 視角（Kanban）-->
+  <div id="view-day" style="display:none">
+    <div class="kanban-wrap">
+      <div id="kanban-container"></div>
+    </div>
+  </div>
 </div>
+
+<!-- ══ 行李頁 ══ -->
+<div id="page-luggage" style="display:none">
+  <header class="app-header">
+    <div class="header-logo">🧳</div>
+    <div class="header-title">行李清單</div>
+    <div class="header-spacer"></div>
+    <div style="font-size:11px;color:var(--linen-400)" id="luggage-progress-text"></div>
+  </header>
+  <div class="checklist-wrap">
+
+    <!-- ── 固定隨身項目 ── -->
+    <div class="fixed-section">
+      <div class="fixed-section-header">
+        <span class="fixed-section-label">隨身行李・固定項目</span>
+        <button class="fixed-reset-btn" onclick="resetFixedItems()">重置勾選</button>
+      </div>
+      <div class="fixed-group-label">證件與貴重物品</div>
+      <div class="fixed-items" id="fixed-docs"></div>
+      <div class="fixed-group-label">3C 電子產品</div>
+      <div class="fixed-items" id="fixed-3c"></div>
+      <div class="fixed-group-label">個人護理用品</div>
+      <div class="fixed-items" id="fixed-care"></div>
+    </div>
+
+    <div class="section-divider">自訂清單</div>
+
+    <!-- ── 自訂清單 ── -->
+    <div class="checklist-add-row">
+      <input class="checklist-input" id="luggage-input" placeholder="新增行李項目…" onkeydown="handleChecklistEnter(event,'luggage')">
+      <button class="checklist-add-btn" onclick="addChecklistItem('luggage')">＋</button>
+    </div>
+    <div class="checklist-progress-bar"><div class="checklist-progress-fill" id="luggage-bar" style="width:0%"></div></div>
+    <div class="checklist-items" id="luggage-items"></div>
+  </div>
+</div>
+
+<!-- ══ 購物頁 ══ -->
+<div id="page-shopping" style="display:none">
+  <header class="app-header">
+    <div class="header-logo">🛍️</div>
+    <div class="header-title">購物清單</div>
+    <div class="header-spacer"></div>
+    <div style="font-size:11px;color:var(--linen-400)" id="shopping-progress-text"></div>
+  </header>
+  <div class="checklist-wrap">
+
+    <!-- ── 固定項目 ── -->
+    <div class="fixed-section">
+      <div class="fixed-section-header">
+        <span class="fixed-section-label">固定提醒</span>
+        <button class="fixed-reset-btn" onclick="resetFixedShoppingItems()">重置勾選</button>
+      </div>
+      <div class="fixed-items" id="fixed-shopping"></div>
+    </div>
+
+    <div class="section-divider">自訂清單</div>
+
+    <!-- ── 自訂清單 ── -->
+    <div class="checklist-add-row">
+      <input class="checklist-input" id="shopping-input" placeholder="新增購物項目…" onkeydown="handleChecklistEnter(event,'shopping')">
+      <button class="checklist-add-btn" onclick="addChecklistItem('shopping')">＋</button>
+    </div>
+    <div class="checklist-progress-bar"><div class="checklist-progress-fill" id="shopping-bar" style="width:0%"></div></div>
+    <div class="checklist-items" id="shopping-items"></div>
+  </div>
+</div>
+
+<!-- ══ 底部導覽列 ══ -->
+<nav class="bottom-nav" id="bottom-nav" style="display:none">
+  <button class="nav-tab active" id="nav-itinerary" onclick="switchTab('itinerary')">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="13" rx="2"/><path d="M7 2v4M13 2v4M3 9h14"/></svg>
+    行程
+  </button>
+  <button class="nav-tab" id="nav-luggage" onclick="switchTab('luggage')">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="8" height="12" rx="2"/><path d="M8 5V3h4v2M4 8h12"/></svg>
+    行李
+  </button>
+  <button class="nav-tab" id="nav-shopping" onclick="switchTab('shopping')">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h10l1.5 9H3.5L5 3z"/><circle cx="8" cy="16" r="1.2" fill="currentColor"/><circle cx="13" cy="16" r="1.2" fill="currentColor"/></svg>
+    購物
+  </button>
+</nav>
 
 <!-- 新增旅程 Modal -->
 <div class="modal-overlay" id="trip-modal" onclick="closeTripModalOnOverlay(event)">
@@ -323,8 +464,8 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
 <div class="modal-overlay" id="ai-modal" onclick="closeAiModalOnOverlay(event)">
   <div class="modal ai-modal">
     <div class="modal-title">✦ AI 匯入行程</div>
-    <p style="font-size:13px;color:var(--linen-400);margin-bottom:1rem;font-style:italic">貼入 LINE 訊息、備忘錄、或複製自 Excel 的行程表，AI 會自動解析成項目。</p>
-    <textarea class="ai-textarea" id="ai-paste-input" placeholder="例：&#10;Day1 上午：鼎泰豐（已訂位，確認號 TW2345）&#10;Day1 下午：故宮博物院（還沒買票）&#10;..."></textarea>
+    <p style="font-size:13px;color:var(--linen-400);margin-bottom:1rem">貼入 LINE 訊息、備忘錄、或複製自 Excel 的行程表，AI 會自動解析成項目。</p>
+    <textarea class="ai-textarea" id="ai-paste-input" placeholder="例：&#10;Day1 上午：鼎泰豐（已訂位）&#10;Day1 下午：故宮博物院（還沒買票）"></textarea>
     <div class="ai-key-row"><span class="ai-key-label">API Key</span><input class="ai-key-input" id="ai-key-input" type="password" placeholder="AIza...（僅存在本機）"></div>
     <div id="ai-modal-error"></div>
     <div class="modal-actions">
@@ -356,40 +497,79 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebas
 import { getDatabase, ref, set, push, remove, onValue, update } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAXzF_wiFJBzBy8vh-clfWK2AIZ1uCR5vg",
-  authDomain: "scout-checklist.firebaseapp.com",
-  databaseURL: "https://scout-checklist-default-rtdb.firebaseio.com",
-  projectId: "scout-checklist",
-  storageBucket: "scout-checklist.firebasestorage.app",
-  messagingSenderId: "441876091472",
-  appId: "1:441876091472:web:29e20124a5a40493417755"
+  apiKey:"AIzaSyAXzF_wiFJBzBy8vh-clfWK2AIZ1uCR5vg",
+  authDomain:"scout-checklist.firebaseapp.com",
+  databaseURL:"https://scout-checklist-default-rtdb.firebaseio.com",
+  projectId:"scout-checklist",
+  storageBucket:"scout-checklist.firebasestorage.app",
+  messagingSenderId:"441876091472",
+  appId:"1:441876091472:web:29e20124a5a40493417755"
 };
-const app = initializeApp(firebaseConfig);
-const db  = getDatabase(app);
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
 
-const STATUSES         = ['候選','選定','跟進中','等回覆','已確認'];
-const PENDING_STATUSES = new Set(['候選','選定','跟進中','等回覆']);
-const VALID_CATS       = ['餐廳','景點','交通','住宿','其他'];
-const AI_KEY_STORE     = 'scout_ai_key';
-let trips={}, items={}, currentTripId=null, currentFilter='all';
+const STATUSES=['候選','選定','跟進中','等回覆','已確認'];
+const PENDING_STATUSES=new Set(['候選','選定','跟進中','等回覆']);
+const VALID_CATS=['餐廳','景點','交通','住宿','其他'];
+const AI_KEY_STORE='scout_ai_key';
 
+let trips={},items={},luggage={},shopping={};
+let currentTripId=null,currentFilter='all',currentView='priority',currentTab='home';
+
+// ── 同步狀態 ──
 function setSyncStatus(s){
-  const bar=document.getElementById('sync-bar'),badge=document.getElementById('sync-badge'),label=document.getElementById('sync-label');
+  const bar=document.getElementById('sync-bar');
   bar.className='sync-bar'+(s==='syncing'?' syncing':s==='error'?' error':'');
-  badge.className='sync-badge'+(s==='live'?' live':s==='syncing'?' syncing':s==='error'?' error':'');
-  label.textContent=s==='live'?'即時同步':s==='syncing'?'同步中…':s==='error'?'連線失敗':'連線中…';
 }
 
-onValue(ref(db,'trips'),snap=>{trips=snap.val()||{};renderTripSelects(currentTripId);render();setSyncStatus('live');},err=>{setSyncStatus('error');console.error(err);});
-onValue(ref(db,'items'),snap=>{items=snap.val()||{};render();},err=>console.error(err));
+// ── Firebase 監聽 ──
+onValue(ref(db,'trips'),snap=>{trips=snap.val()||{};renderTripSelects(currentTripId);renderAll();setSyncStatus('live');},err=>{setSyncStatus('error');});
+onValue(ref(db,'items'),snap=>{items=snap.val()||{};renderAll();});
+onValue(ref(db,'luggage'),snap=>{luggage=snap.val()||{};renderChecklist('luggage');});
+onValue(ref(db,'shopping'),snap=>{shopping=snap.val()||{};renderChecklist('shopping');});
 
+// ── Tab 切換 ──
+window.switchTab=function(tab){
+  currentTab=tab;
+  ['home','itinerary','luggage','shopping'].forEach(t=>{
+    const el=document.getElementById('page-'+t);
+    if(el)el.style.display=t===tab?'':'none';
+  });
+  ['itinerary','luggage','shopping'].forEach(t=>{
+    const btn=document.getElementById('nav-'+t);
+    if(btn)btn.classList.toggle('active',t===tab);
+  });
+  if(tab==='itinerary')renderAll();
+  if(tab==='luggage')renderChecklist('luggage');
+  if(tab==='shopping')renderChecklist('shopping');
+};
+
+// ── 視角切換 ──
+window.setView=function(v){
+  currentView=v;
+  document.getElementById('tab-priority').classList.toggle('active',v==='priority');
+  document.getElementById('tab-day').classList.toggle('active',v==='day');
+  document.getElementById('view-priority').style.display=v==='priority'?'':'none';
+  document.getElementById('view-day').style.display=v==='day'?'':'none';
+  document.getElementById('filter-bar').style.display=v==='priority'?'':'none';
+  renderAll();
+};
+
+// ── 旅程 CRUD ──
 window.createTrip=function(){
   const name=document.getElementById('modal-trip-name').value.trim();
   const start=document.getElementById('modal-start').value,end=document.getElementById('modal-end').value;
   if(!name){alert('請輸入旅程名稱');return;}
   setSyncStatus('syncing');
   const nr=push(ref(db,'trips'));
-  set(nr,{name,startDate:start,endDate:end}).then(()=>{closeTripModal();currentTripId=nr.key;renderTripSelects(currentTripId);render();setSyncStatus('live');});
+  set(nr,{name,startDate:start,endDate:end}).then(()=>{
+    closeTripModal();currentTripId=nr.key;
+    renderTripSelects(currentTripId);
+    // 選好旅程後切到行程頁
+    document.getElementById('page-home').style.display='none';
+    document.getElementById('bottom-nav').style.display='flex';
+    switchTab('itinerary');
+  });
 };
 
 window.deleteCurrentTrip=function(){
@@ -398,9 +578,33 @@ window.deleteCurrentTrip=function(){
   if(!confirm('確定要刪除「'+trip.name+'」？'))return;
   setSyncStatus('syncing');
   Object.keys(items).forEach(k=>{if(items[k].tripId===currentTripId)remove(ref(db,'items/'+k));});
-  remove(ref(db,'trips/'+currentTripId)).then(()=>{currentTripId=null;render();setSyncStatus('live');});
+  remove(ref(db,'trips/'+currentTripId)).then(()=>{currentTripId=null;renderAll();});
 };
 
+// ── 旅程切換 ──
+window.onTripChange=function(val){
+  currentTripId=val||null;
+  document.getElementById('trip-select-home').value=val;
+  document.getElementById('trip-select-board').value=val;
+  document.getElementById('delete-trip-btn').style.display=val?'':'none';
+  currentFilter='all';
+  document.querySelectorAll('.filter-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
+  if(val){
+    // 進入行程頁
+    document.getElementById('page-home').style.display='none';
+    document.getElementById('bottom-nav').style.display='flex';
+    switchTab('itinerary');
+  } else {
+    document.getElementById('bottom-nav').style.display='none';
+    document.getElementById('page-home').style.display='';
+    ['itinerary','luggage','shopping'].forEach(t=>{
+      const el=document.getElementById('page-'+t);
+      if(el)el.style.display='none';
+    });
+  }
+};
+
+// ── 項目 CRUD ──
 window.addItem=function(){
   if(!currentTripId)return;
   const name=document.getElementById('new-name').value.trim();
@@ -419,105 +623,124 @@ window.addItem=function(){
 
 window.updateStatus=function(k,s){
   setSyncStatus('syncing');update(ref(db,'items/'+k),{status:s});
-  const card=document.querySelector('.item-card[data-id="'+k+'"]');
-  if(card){
-    card.setAttribute('data-status',s);
-    const isDone=s==='已確認';
-    const isMust=(items[k]?.priority||'必須')==='必須';
-    card.className='item-card'+(isMust?' must':' flex')+(isDone?' confirmed':' pending');
-    const sel=card.querySelector('.status-select');
-    if(sel)sel.setAttribute('data-status',s);
-    // 狀態改變後重新 render 以便重新排序
-    render();
-  }
+  renderAll();
 };
 
 window.togglePriority=function(k){
-  const current=items[k]?.priority||'必須';
-  const next=current==='必須'?'彈性':'必須';
+  const cur=items[k]?.priority||'必須';
   setSyncStatus('syncing');
-  update(ref(db,'items/'+k),{priority:next});
+  update(ref(db,'items/'+k),{priority:cur==='必須'?'彈性':'必須'});
 };
 
 window.deleteItem=function(k){
   setSyncStatus('syncing');
-  const card=document.querySelector('.item-card[data-id="'+k+'"]');
+  const card=document.querySelector('[data-id="'+k+'"]');
   if(card){card.style.transition='opacity 0.2s';card.style.opacity='0';}
   setTimeout(()=>remove(ref(db,'items/'+k)),180);
 };
 
-// ── 主 Render（優先級排序）──
-window.render=function(){
-  const hasTrip=!!currentTripId;
-  document.getElementById('header-home').style.display=hasTrip?'none':'';
-  document.getElementById('header-board').style.display=hasTrip?'':'none';
-  document.getElementById('main-home').style.display=hasTrip?'none':'';
-  document.getElementById('board-body').style.display=hasTrip?'':'none';
-  document.getElementById('filter-bar').style.display=hasTrip?'':'none';
-  document.getElementById('add-panel').classList.remove('open');
+// ── Checklist CRUD（行李 & 購物）──
+window.addChecklistItem=function(type){
+  const input=document.getElementById(type+'-input');
+  const name=input.value.trim();
+  if(!name)return;
+  setSyncStatus('syncing');
+  push(ref(db,type),{name,checked:false,createdAt:Date.now()});
+  input.value='';
+};
 
-  if(!hasTrip){
-    document.getElementById('delete-trip-btn').style.display='none';
-    document.getElementById('no-trip-state').style.display=Object.keys(trips).length===0?'':'none';
+window.handleChecklistEnter=function(e,type){
+  if(e.key==='Enter'&&!e.isComposing)addChecklistItem(type);
+};
+
+window.toggleChecklistItem=function(type,k){
+  const cur=(type==='luggage'?luggage:shopping)[k];
+  if(!cur)return;
+  setSyncStatus('syncing');
+  update(ref(db,type+'/'+k),{checked:!cur.checked});
+};
+
+window.deleteChecklistItem=function(type,k){
+  setSyncStatus('syncing');
+  remove(ref(db,type+'/'+k));
+};
+
+// ── Render 行李/購物清單 ──
+function renderChecklist(type){
+  const data=type==='luggage'?luggage:shopping;
+  const container=document.getElementById(type+'-items');
+  const progressText=document.getElementById(type+'-progress-text');
+  const progressBar=document.getElementById(type+'-bar');
+  if(!container)return;
+  const all=Object.entries(data).sort(([,a],[,b])=>(a.createdAt||0)-(b.createdAt||0));
+  const total=all.length;
+  const checked=all.filter(([,v])=>v.checked).length;
+  if(progressText)progressText.textContent=total>0?checked+' / '+total+' 完成':'';
+  if(progressBar)progressBar.style.width=total>0?Math.round(checked/total*100)+'%':'0%';
+  if(total===0){
+    container.innerHTML='<div class="empty-state" style="padding:2rem 0"><div class="empty-state-icon">'+(type==='luggage'?'🧳':'🛍️')+'</div><div class="empty-state-text">還沒有項目，輸入後按 ＋ 新增</div></div>';
     return;
   }
+  // 未勾選在前，已勾選在後
+  const unchecked=all.filter(([,v])=>!v.checked);
+  const done=all.filter(([,v])=>v.checked);
+  container.innerHTML=[...unchecked,...done].map(([k,v])=>`
+    <div class="checklist-item${v.checked?' checked':''}" data-id="${k}">
+      <div class="check-circle" onclick="toggleChecklistItem('${type}','${k}')">
+        ${v.checked?`<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4.5 7.5L8.5 2.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`:''}
+      </div>
+      <div class="checklist-item-name">${escapeHtml(v.name)}</div>
+      <button class="checklist-delete" onclick="deleteChecklistItem('${type}','${k}')">✕</button>
+    </div>`).join('');
+}
 
-  const allItems=Object.entries(items)
-    .filter(([,v])=>v.tripId===currentTripId)
-    .map(([k,v])=>({_key:k,...v,priority:v.priority||'必須'}));
+// ── Render 全部 ──
+function renderAll(){
+  if(currentTab==='itinerary'||currentTab==='home'){
+    if(currentView==='priority')renderPriority();
+    else renderKanban();
+    updateUrgentBadge();
+  }
+}
 
-  // 更新必須未確認徽章
+function updateUrgentBadge(){
+  if(!currentTripId)return;
+  const allItems=Object.values(items).filter(v=>v.tripId===currentTripId).map(v=>({...v,priority:v.priority||'必須'}));
   const urgentCount=allItems.filter(i=>i.priority==='必須'&&PENDING_STATUSES.has(i.status)).length;
   const badge=document.getElementById('urgent-badge');
+  if(!badge)return;
   document.getElementById('urgent-num').textContent=urgentCount;
   badge.classList.toggle('clear',urgentCount===0&&allItems.length>0);
   document.getElementById('urgent-lbl').textContent=(urgentCount===0&&allItems.length>0)?'全部確認 ✓':'必須未確認';
+}
 
-  // Filter
+// ── 優先級視角 Render ──
+function renderPriority(){
+  const container=document.getElementById('priority-container');
+  if(!container)return;
+  if(!currentTripId){container.innerHTML='';return;}
+  const allItems=Object.entries(items).filter(([,v])=>v.tripId===currentTripId).map(([k,v])=>({_key:k,...v,priority:v.priority||'必須'}));
   let filtered=allItems;
   if(currentFilter==='必須')filtered=allItems.filter(i=>i.priority==='必須');
   else if(currentFilter==='彈性')filtered=allItems.filter(i=>i.priority==='彈性');
   else if(currentFilter==='未確認')filtered=allItems.filter(i=>PENDING_STATUSES.has(i.status));
   else if(currentFilter==='已確認')filtered=allItems.filter(i=>i.status==='已確認');
-
-  if(allItems.length===0){
-    document.getElementById('board-container').innerHTML='<div class="empty-state"><div class="empty-state-icon">🗺️</div><div class="empty-state-text">還沒有行程項目<br>點右上角「＋」新增</div></div>';
-    return;
-  }
-
-  // 三個區段
-  const mustPending  = filtered.filter(i=>i.priority==='必須'&&PENDING_STATUSES.has(i.status));
-  const flexPending  = filtered.filter(i=>i.priority==='彈性'&&PENDING_STATUSES.has(i.status));
-  const done         = filtered.filter(i=>i.status==='已確認');
-
+  if(allItems.length===0){container.innerHTML='<div class="empty-state"><div class="empty-state-icon">🗺️</div><div class="empty-state-text">還沒有行程項目<br>點右上角「＋」新增</div></div>';return;}
+  const mustPending=filtered.filter(i=>i.priority==='必須'&&PENDING_STATUSES.has(i.status));
+  const flexPending=filtered.filter(i=>i.priority==='彈性'&&PENDING_STATUSES.has(i.status));
+  const done=filtered.filter(i=>i.status==='已確認');
   let html='';
+  if(mustPending.length>0){html+=`<div class="section-label urgent">必須確認・未確認<div class="section-line"></div></div><div class="items-list">${mustPending.map(renderPriorityCard).join('')}</div>`;}
+  if(flexPending.length>0){html+=`<div class="section-label flexible">可以彈性・未確認<div class="section-line"></div></div><div class="items-list">${flexPending.map(renderPriorityCard).join('')}</div>`;}
+  if(done.length>0){html+=`<div class="section-label done">已確認<div class="section-line"></div></div><div class="items-list">${done.map(renderPriorityCard).join('')}</div>`;}
+  if(!html)html='<div class="empty-state"><div class="empty-state-icon">✅</div><div class="empty-state-text">這個篩選條件下沒有項目</div></div>';
+  container.innerHTML=html;
+}
 
-  if(mustPending.length>0){
-    html+=`<div class="section-label urgent">必須確認・未確認<div class="section-line"></div></div>`;
-    html+=`<div class="items-list">${mustPending.map(renderCard).join('')}</div>`;
-  }
-  if(flexPending.length>0){
-    html+=`<div class="section-label flexible">可以彈性・未確認<div class="section-line"></div></div>`;
-    html+=`<div class="items-list">${flexPending.map(renderCard).join('')}</div>`;
-  }
-  if(done.length>0){
-    html+=`<div class="section-label done">已確認<div class="section-line"></div></div>`;
-    html+=`<div class="items-list">${done.map(renderCard).join('')}</div>`;
-  }
-  if(mustPending.length===0&&flexPending.length===0&&done.length===0){
-    html='<div class="empty-state"><div class="empty-state-icon">✅</div><div class="empty-state-text">這個篩選條件下沒有項目</div></div>';
-  }
-
-  document.getElementById('board-container').innerHTML=html;
-};
-
-function renderCard(item){
-  const isDone=item.status==='已確認';
-  const isMust=item.priority==='必須';
+function renderPriorityCard(item){
+  const isDone=item.status==='已確認',isMust=item.priority==='必須';
   const cardClass='item-card'+(isMust?' must':' flex')+(isDone?' confirmed':' pending');
   const opts=STATUSES.map(s=>`<option value="${s}"${s===item.status?' selected':''}>${s}</option>`).join('');
-  const priorityLabel=isMust?'必須':'彈性';
-  const priorityClass=isMust?'must':'flex';
   return `<div class="${cardClass}" data-id="${item._key}" data-status="${escapeHtml(item.status)}">
     <div class="item-main">
       <div class="item-name" onclick="startEditName('${item._key}',this)">${escapeHtml(item.name)}</div>
@@ -528,10 +751,48 @@ function renderCard(item){
       </div>
     </div>
     <div class="item-right">
-      <button class="priority-btn ${priorityClass}" onclick="togglePriority('${item._key}')" title="點擊切換優先級">${priorityLabel}</button>
-      <select class="status-select" data-status="${escapeHtml(item.status)}"
-        onchange="updateStatus('${item._key}',this.value);this.setAttribute('data-status',this.value)">${opts}</select>
-      <button class="delete-btn" onclick="deleteItem('${item._key}')" title="刪除">✕</button>
+      <button class="priority-btn ${isMust?'must':'flex'}" onclick="togglePriority('${item._key}')">${isMust?'必須':'彈性'}</button>
+      <select class="status-select" data-status="${escapeHtml(item.status)}" onchange="updateStatus('${item._key}',this.value);this.setAttribute('data-status',this.value)">${opts}</select>
+      <button class="delete-btn" onclick="deleteItem('${item._key}')">✕</button>
+    </div>
+  </div>`;
+}
+
+// ── Kanban 視角 Render ──
+function renderKanban(){
+  const container=document.getElementById('kanban-container');
+  if(!container||!currentTripId){if(container)container.innerHTML='';return;}
+  const allItems=Object.entries(items).filter(([,v])=>v.tripId===currentTripId).map(([k,v])=>({_key:k,...v,priority:v.priority||'必須'}));
+  if(allItems.length===0){container.innerHTML='<div class="empty-state"><div class="empty-state-icon">🗺️</div><div class="empty-state-text">還沒有行程項目</div></div>';return;}
+  const allDays=[...new Set(allItems.map(i=>i.day))].sort((a,b)=>a-b);
+  const byDay={};
+  allItems.forEach(item=>{if(!byDay[item.day])byDay[item.day]=[];byDay[item.day].push(item);});
+  allDays.forEach(d=>byDay[d].sort((a,b)=>(a.order||0)-(b.order||0)));
+  const groups=[];for(let i=0;i<allDays.length;i+=4)groups.push(allDays.slice(i,i+4));
+  container.innerHTML=groups.map(group=>{
+    const cols=group.map(day=>{
+      const dayItems=byDay[day]||[];
+      const pending=dayItems.filter(i=>PENDING_STATUSES.has(i.status)).length;
+      const dotClass=pending>0?'has-pending':dayItems.length>0?'all-clear':'';
+      const countText=pending>0?pending+' 未確認':dayItems.length>0?'✓':'';
+      const cardsHtml=dayItems.length>0?dayItems.map(renderKanbanCard).join(''):'<div class="col-empty">無項目</div>';
+      return `<div class="day-col"><div class="day-header"><div class="day-dot ${dotClass}"></div><div class="day-title">Day ${day}</div><div class="day-count${pending>0?' has-pending':''}">${countText}</div></div><div>${cardsHtml}</div></div>`;
+    }).join('');
+    return `<div class="board-group">${cols}</div>`;
+  }).join('');
+}
+
+function renderKanbanCard(item){
+  const confirmed=item.status==='已確認';
+  const opts=STATUSES.map(s=>`<option value="${s}"${s===item.status?' selected':''}>${s}</option>`).join('');
+  return `<div class="kanban-card${confirmed?' confirmed':''}" data-id="${item._key}" data-status="${escapeHtml(item.status)}" style="margin-bottom:8px">
+    <div class="kanban-card-top">
+      <div class="kanban-name" onclick="startEditName('${item._key}',this)">${escapeHtml(item.name)}</div>
+      <select class="status-select" data-status="${escapeHtml(item.status)}" onchange="updateStatus('${item._key}',this.value);this.setAttribute('data-status',this.value)">${opts}</select>
+    </div>
+    <div class="kanban-card-bottom">
+      <span class="cat-tag">${escapeHtml(item.category)}</span>
+      <button class="delete-btn" onclick="deleteItem('${item._key}')">✕</button>
     </div>
   </div>`;
 }
@@ -542,19 +803,11 @@ function renderTripSelects(selectedId){
   document.getElementById('trip-select-board').innerHTML=opts;
 }
 
-window.onTripChange=function(val){
-  currentTripId=val||null;
-  document.getElementById('trip-select-home').value=val;
-  document.getElementById('trip-select-board').value=val;
-  document.getElementById('delete-trip-btn').style.display=val?'':'none';
-  currentFilter='all';
-  document.querySelectorAll('.filter-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
-  render();
-};
-
-window.setFilter=function(f,btn){currentFilter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();};
+// ── 新增面板 ──
 window.toggleAddPanel=function(){const p=document.getElementById('add-panel');p.classList.toggle('open');if(p.classList.contains('open'))setTimeout(()=>document.getElementById('new-name').focus(),50);};
+window.setFilter=function(f,btn){currentFilter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderPriority();};
 
+// ── 旅程 Modal ──
 window.openTripModal=function(){
   document.getElementById('trip-modal').classList.add('open');
   setTimeout(()=>{const input=document.getElementById('modal-trip-name');input.focus();if(!input._bound){input._bound=true;let c=false;input.addEventListener('compositionstart',()=>c=true);input.addEventListener('compositionend',()=>c=false);input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!c){e.preventDefault();createTrip();}});}},100);
@@ -562,6 +815,7 @@ window.openTripModal=function(){
 window.closeTripModal=function(){document.getElementById('trip-modal').classList.remove('open');document.getElementById('modal-trip-name').value='';document.getElementById('modal-start').value='';document.getElementById('modal-end').value='';};
 window.closeTripModalOnOverlay=function(e){if(e.target===document.getElementById('trip-modal'))closeTripModal();};
 
+// ── AI ──
 let parsedPreviewItems=[],selectedPreviewIds=new Set();
 window.openAiModal=function(){if(!currentTripId)return;document.getElementById('ai-key-input').value=localStorage.getItem(AI_KEY_STORE)||'';document.getElementById('ai-paste-input').value='';document.getElementById('ai-modal-error').innerHTML='';document.getElementById('ai-modal').classList.add('open');setTimeout(()=>document.getElementById('ai-paste-input').focus(),100);};
 window.closeAiModal=function(){const t=document.getElementById('ai-paste-input').value.trim();if(t&&!confirm('還有未解析的內容，確定要離開嗎？'))return;document.getElementById('ai-modal').classList.remove('open');};
@@ -594,37 +848,149 @@ window.runAiParse=async function(){
     document.getElementById('preview-list').innerHTML='';document.getElementById('preview-error').innerHTML='<div class="ai-error">⚠ '+escapeHtml(err.message)+'</div>';document.getElementById('preview-count').textContent='';
   }
 };
-
 function renderPreview(){
   document.getElementById('preview-loading').style.display='none';document.getElementById('preview-result').style.display='';document.getElementById('preview-error').innerHTML='';
   document.getElementById('preview-count').textContent='共解析出 '+parsedPreviewItems.length+' 個項目';
-  document.getElementById('preview-list').innerHTML=parsedPreviewItems.map(p=>{const sel=selectedPreviewIds.has(p._pid);const notesHtml=p.notes?`<div class="preview-notes">${escapeHtml(p.notes)}</div>`:'';return `<div class="preview-item${sel?' selected':''}" onclick="togglePreviewItem(${p._pid})"><div class="preview-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4.5 7.5L8.5 2.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="preview-body"><div class="preview-name">${escapeHtml(p.name)}</div><div class="preview-meta">Day ${p.day} · ${escapeHtml(p.category)}</div>${notesHtml}</div><span class="preview-status-badge badge-${p.status}">${escapeHtml(p.status)}</span></div>`;}).join('');
+  document.getElementById('preview-list').innerHTML=parsedPreviewItems.map(p=>{const sel=selectedPreviewIds.has(p._pid);const notesHtml=p.notes?`<div style="font-size:12px;font-style:italic;color:var(--linen-700);margin-top:2px">${escapeHtml(p.notes)}</div>`:'';return `<div class="preview-item${sel?' selected':''}" onclick="togglePreviewItem(${p._pid})"><div class="preview-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4.5 7.5L8.5 2.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="preview-body"><div class="preview-name">${escapeHtml(p.name)}</div><div class="preview-meta">Day ${p.day} · ${escapeHtml(p.category)}</div>${notesHtml}</div><span class="preview-status-badge badge-${p.status}">${escapeHtml(p.status)}</span></div>`;}).join('');
 }
 window.togglePreviewItem=function(pid){if(selectedPreviewIds.has(pid))selectedPreviewIds.delete(pid);else selectedPreviewIds.add(pid);renderPreview();};
 window.toggleSelectAll=function(){if(selectedPreviewIds.size===parsedPreviewItems.length)selectedPreviewIds.clear();else selectedPreviewIds=new Set(parsedPreviewItems.map(p=>p._pid));renderPreview();};
 window.confirmImport=function(){
   if(selectedPreviewIds.size===0){document.getElementById('preview-error').innerHTML='<div class="ai-error">請至少選取一個項目。</div>';return;}
-  const toImport=parsedPreviewItems.filter(p=>selectedPreviewIds.has(p._pid));
   setSyncStatus('syncing');
-  // AI 匯入的項目預設 priority 為「必須」
-  toImport.forEach(p=>{let maxOrder=0;Object.values(items).forEach(i=>{if(i.tripId===currentTripId&&i.day===p.day)maxOrder=Math.max(maxOrder,(i.order||0)+1);});push(ref(db,'items'),{tripId:currentTripId,day:p.day,name:p.name,category:p.category,status:p.status,notes:p.notes,priority:'必須',order:maxOrder});});
+  parsedPreviewItems.filter(p=>selectedPreviewIds.has(p._pid)).forEach(p=>{
+    let maxOrder=0;Object.values(items).forEach(i=>{if(i.tripId===currentTripId&&i.day===p.day)maxOrder=Math.max(maxOrder,(i.order||0)+1);});
+    push(ref(db,'items'),{tripId:currentTripId,day:p.day,name:p.name,category:p.category,status:p.status,notes:p.notes,priority:'必須',order:maxOrder});
+  });
   closePreviewModal();
 };
 
-// Inline 編輯名稱
+// ── Inline 編輯 ──
 window.startEditName=function(k,el){
   const cur=el.textContent,input=document.createElement('input');
   input.className='inline-input';input.value=cur;el.replaceWith(input);
   input.focus();input.select();let c=false;
   input.addEventListener('compositionstart',()=>c=true);input.addEventListener('compositionend',()=>c=false);
-  function save(){const val=input.value.trim()||cur;if(val!==cur){setSyncStatus('syncing');update(ref(db,'items/'+k),{name:val});}const div=document.createElement('div');div.className='item-name';div.textContent=val;div.addEventListener('click',()=>startEditName(k,div));input.replaceWith(div);}
+  function save(){const val=input.value.trim()||cur;if(val!==cur){setSyncStatus('syncing');update(ref(db,'items/'+k),{name:val});}const div=document.createElement('div');div.className=el.className;div.textContent=val;div.addEventListener('click',()=>startEditName(k,div));input.replaceWith(div);}
   input.addEventListener('blur',save);input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!c){e.preventDefault();input.blur();}if(e.key==='Escape'){input.value=cur;input.blur();}});
 };
 
+// ── 固定隨身項目資料 ──
+const FIXED_ITEMS = {
+  docs: [
+    { id:'d1', name:'護照 / 身分證', note:'確認有效期限至少還有 6 個月' },
+    { id:'d2', name:'簽證相關文件' },
+    { id:'d3', name:'機票 / 訂票資訊', note:'建議存電子檔及列印紙本' },
+    { id:'d4', name:'信用卡' },
+    { id:'d5', name:'少量現金及當地貨幣' },
+    { id:'d6', name:'台灣駕駛執照、國際駕駛執照、駕照譯本' },
+    { id:'d7', name:'當地交通卡' },
+  ],
+  '3c': [
+    { id:'c1', name:'行動電源（至少 10,000mAh）' },
+    { id:'c2', name:'轉接插頭' },
+    { id:'c3', name:'漫遊服務 / eSIM', note:'出發前記得申請好' },
+  ],
+  care: [
+    { id:'p1', name:'牙刷、牙膏' },
+    { id:'p2', name:'化妝品 / 保養品' },
+    { id:'p3', name:'防曬乳' },
+    { id:'p4', name:'乾洗手 / 消毒濕紙巾' },
+    { id:'p5', name:'個人藥品' },
+    { id:'p6', name:'隱形眼鏡 / 太陽眼鏡' },
+  ]
+};
+const FIXED_STORAGE_KEY = 'scout_fixed_checked';
+
+function getFixedChecked() {
+  try { return JSON.parse(localStorage.getItem(FIXED_STORAGE_KEY)) || {}; }
+  catch(e) { return {}; }
+}
+
+function setFixedChecked(checked) {
+  localStorage.setItem(FIXED_STORAGE_KEY, JSON.stringify(checked));
+}
+
+window.toggleFixedItem = function(id) {
+  const checked = getFixedChecked();
+  checked[id] = !checked[id];
+  setFixedChecked(checked);
+  renderFixedItems();
+};
+
+window.resetFixedItems = function() {
+  if (!confirm('確定要重置所有固定項目的勾選狀態嗎？')) return;
+  setFixedChecked({});
+  renderFixedItems();
+};
+
+function renderFixedItems() {
+  const checked = getFixedChecked();
+  const checkSvg = `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4.5 7.5L8.5 2.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+  function renderGroup(items) {
+    return items.map(item => `
+      <div class="fixed-item${checked[item.id]?' checked':''}" onclick="toggleFixedItem('${item.id}')">
+        <div class="fixed-check">${checked[item.id]?checkSvg:''}</div>
+        <div style="flex:1;min-width:0">
+          <div class="fixed-item-name">${escapeHtml(item.name)}</div>
+          ${item.note?`<div class="fixed-item-note">${escapeHtml(item.note)}</div>`:''}
+        </div>
+      </div>`).join('');
+  }
+
+  const docEl = document.getElementById('fixed-docs');
+  const c3El  = document.getElementById('fixed-3c');
+  const careEl= document.getElementById('fixed-care');
+  if (docEl)  docEl.innerHTML  = renderGroup(FIXED_ITEMS.docs);
+  if (c3El)   c3El.innerHTML   = renderGroup(FIXED_ITEMS['3c']);
+  if (careEl) careEl.innerHTML = renderGroup(FIXED_ITEMS.care);
+}
+
 function escapeHtml(str){return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeTripModal();closeAiModal();closePreviewModal();}});
-setSyncStatus('connecting');
-render();
+
+// ── 購物固定項目 ──
+const FIXED_SHOPPING_ITEMS = [
+  { id:'s1', name:'伴手禮' },
+  { id:'s2', name:'紀念品' },
+];
+const FIXED_SHOPPING_KEY = 'scout_fixed_shopping_checked';
+
+function getFixedShoppingChecked() {
+  try { return JSON.parse(localStorage.getItem(FIXED_SHOPPING_KEY)) || {}; }
+  catch(e) { return {}; }
+}
+
+window.toggleFixedShoppingItem = function(id) {
+  const checked = getFixedShoppingChecked();
+  checked[id] = !checked[id];
+  localStorage.setItem(FIXED_SHOPPING_KEY, JSON.stringify(checked));
+  renderFixedShoppingItems();
+};
+
+window.resetFixedShoppingItems = function() {
+  if (!confirm('確定要重置購物固定項目的勾選狀態嗎？')) return;
+  localStorage.setItem(FIXED_SHOPPING_KEY, JSON.stringify({}));
+  renderFixedShoppingItems();
+};
+
+function renderFixedShoppingItems() {
+  const el = document.getElementById('fixed-shopping');
+  if (!el) return;
+  const checked = getFixedShoppingChecked();
+  const checkSvg = `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4.5 7.5L8.5 2.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  el.innerHTML = FIXED_SHOPPING_ITEMS.map(item => `
+    <div class="fixed-item${checked[item.id]?' checked':''}" onclick="toggleFixedShoppingItem('${item.id}')">
+      <div class="fixed-check">${checked[item.id]?checkSvg:''}</div>
+      <div class="fixed-item-name">${escapeHtml(item.name)}</div>
+    </div>`).join('');
+}
+
+// 初始化固定項目
+renderFixedItems();
+renderFixedShoppingItems();
+renderAll();
 </script>
 </body>
 </html>
