@@ -60,7 +60,7 @@ body { background:var(--linen-50); font-family:var(--font-sans); color:var(--lin
 .view-tab.active { color:var(--sage-800); border-bottom-color:var(--sage-800); font-weight:500; }
 
 /* ── Filter 列 ── */
-.filter-bar { display:flex; gap:6px; padding:8px 16px; overflow-x:auto; scrollbar-width:none; border-bottom:0.5px solid var(--linen-200); background:#fff; position:sticky; top:99px; z-index:89; }
+.filter-bar { display:flex; gap:6px; padding:8px 16px; overflow-x:auto; scrollbar-width:none; border-bottom:0.5px solid var(--linen-200); background:#fff; position:sticky; top:0; z-index:89; }
 .filter-bar::-webkit-scrollbar { display:none; }
 .filter-btn { flex-shrink:0; border-radius:100px; padding:4px 12px; font-size:11px; font-family:var(--font-sans); cursor:pointer; border:1.5px solid var(--linen-200); background:#fff; color:var(--linen-700); white-space:nowrap; transition:all 0.15s; }
 .filter-btn:hover { border-color:var(--sage-400); color:var(--sage-800); }
@@ -553,6 +553,7 @@ window.setView=function(v){
   document.getElementById('view-day').style.display=v==='day'?'':'none';
   document.getElementById('filter-bar').style.display=v==='priority'?'':'none';
   renderAll();
+  setTimeout(updateFilterTop, 50);
 };
 
 // ── 旅程 CRUD ──
@@ -987,10 +988,23 @@ function renderFixedShoppingItems() {
     </div>`).join('');
 }
 
+// ── 動態設定 filter-bar sticky top ──
+function updateFilterTop() {
+  const header   = document.querySelector('.app-header');
+  const viewTabs = document.querySelector('.view-tabs');
+  const filterBar= document.getElementById('filter-bar');
+  if (!filterBar) return;
+  const headerH   = header   ? header.offsetHeight   : 0;
+  const viewTabsH = viewTabs ? viewTabs.offsetHeight : 0;
+  filterBar.style.top = (headerH + viewTabsH) + 'px';
+}
+
 // 初始化固定項目
 renderFixedItems();
 renderFixedShoppingItems();
 renderAll();
+setTimeout(updateFilterTop, 100);
+window.addEventListener('resize', updateFilterTop);
 </script>
 </body>
 </html>
